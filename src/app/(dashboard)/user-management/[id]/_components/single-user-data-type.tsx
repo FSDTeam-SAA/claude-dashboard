@@ -22,7 +22,8 @@ export interface User {
   phone: string
   phoneCode: string
   position: string[]
-  socialMedia: SocialMedia[]
+  schoolName: string;
+  socialMedia: SocialMedia[];
   playingVideo: string[]
   agent: string
   age: number
@@ -58,8 +59,9 @@ export interface User {
 
 
 export interface SocialMedia {
-  platform: string
-  url: string
+  _id: string;
+  name: string;
+  url: string;
 }
 
 export interface Subscription {
