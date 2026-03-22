@@ -142,11 +142,11 @@ const UserManagementContainer = () => {
                 <TableCell className="text-base font-normal text-[#68706A] leading-[150%] text-center py-4">
                   {item?.citizenship || "N/A"}
                 </TableCell>
-                <TableCell className="text-base font-normal text-[#68706A] leading-[150%] text-center py-4">
+                <TableCell className="text-base font-normal text-[#68706A] leading-[150%] text-center capitalize py-4">
                   {item?.gender || "N/A"}
                 </TableCell>
 
-                <TableCell className="text-base font-normal text-[#68706A] leading-[150%] text-center py-4">
+                <TableCell className="text-base font-normal text-[#68706A] leading-[150%] text-center capitalize py-4">
                   {item?.role}
                 </TableCell>
 

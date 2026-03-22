@@ -22,16 +22,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AttackingStat } from "@/components/types/attacking-stats-data-type";
 
 type AttackingStatsFormValues = {
-    goals: number
-  assists: number
-  shotsNsidePr: number
-  shotsOutsidePa: number
-  totalShots: number
-  shotsOnTarget: number
-  shootingAccuracy: string
-  shotsOffTarget: number
-  passesAccuracy: string
-  takeOn: number
+  goals: number;
+  assists: number;
+  shotsNsidePr: number;
+  shotsOutsidePa: number;
+  totalShots: number;
+  shotsOnTarget: number;
+  shootingAccuracy: string;
+  shotsOffTarget: number;
+  passesAccuracy: string;
+  takeOn: string;
 };
 
 interface Props {
@@ -69,24 +69,15 @@ export const attackingStatsSchema = z.object({
     .number({ message: "Shots on target must be a number" })
     .min(0, "Shots on target cannot be negative"),
 
-
-    shootingAccuracy: z
-    .string()
-    .min(1, "Shooting Accuracy is required"),
+  shootingAccuracy: z.string().min(1, "Shooting Accuracy is required"),
 
   shotsOffTarget: z
     .number({ message: "Shots off target must be a number" })
     .min(0, "Shots off target cannot be negative"),
 
- 
+  passesAccuracy: z.string().min(1, "Passes Accuracy is required"),
 
-    passesAccuracy: z
-    .string()
-    .min(1, "Passes Accuracy is required"),
-
-  takeOn: z
-    .number({ message: "Take on must be a number" })
-    .min(0, "Take on cannot be negative"),
+  takeOn: z.string().min(1, "Aerial Duels is required"),
 });
 
 const AddEditAttackingStatsForm = ({
@@ -103,47 +94,42 @@ const AddEditAttackingStatsForm = ({
   const form = useForm<AttackingStatsFormValues>({
     resolver: zodResolver(attackingStatsSchema),
     defaultValues: {
-  goals: undefined,
-  assists: undefined,
+      goals: undefined,
+      assists: undefined,
 
-  shotsNsidePr: undefined,
-  shotsOutsidePa: undefined,
-  totalShots: undefined,
+      shotsNsidePr: undefined,
+      shotsOutsidePa: undefined,
+      totalShots: undefined,
 
-  shotsOnTarget: undefined,
-  shotsOffTarget: undefined,
+      shotsOnTarget: undefined,
+      shotsOffTarget: undefined,
 
-  shootingAccuracy: "",
-  passesAccuracy: "",
+      shootingAccuracy: "",
+      passesAccuracy: "",
 
-  takeOn: undefined,
-},
-
-
+      takeOn: "",
+    },
   });
 
   // 🔁 Edit mode prefill
   useEffect(() => {
     if (defaultData) {
       form.reset({
-  goals: defaultData?.goals ?? 0,
-  assists: defaultData?.assists ?? 0,
+        goals: defaultData?.goals ?? 0,
+        assists: defaultData?.assists ?? 0,
 
-  shotsNsidePr: defaultData?.shotsNsidePr ?? 0,
-  shotsOutsidePa: defaultData?.shotsOutsidePa ?? 0,
-  totalShots: defaultData?.totalShots ?? 0,
+        shotsNsidePr: defaultData?.shotsNsidePr ?? 0,
+        shotsOutsidePa: defaultData?.shotsOutsidePa ?? 0,
+        totalShots: defaultData?.totalShots ?? 0,
 
-  shotsOnTarget: defaultData?.shotsOnTarget ?? 0,
-  shotsOffTarget: defaultData?.shotsOffTarget ?? 0,
+        shotsOnTarget: defaultData?.shotsOnTarget ?? 0,
+        shotsOffTarget: defaultData?.shotsOffTarget ?? 0,
 
-  shootingAccuracy: defaultData?.shootingAccuracy || "",
-  passesAccuracy: defaultData?.passesAccuracy || "",
+        shootingAccuracy: defaultData?.shootingAccuracy ?? "",
+        passesAccuracy: defaultData?.passesAccuracy ?? "",
 
-  takeOn: defaultData?.takeOn ?? 0,
-});
-
-
-
+        takeOn: defaultData?.takeOn ?? "",
+      });
     }
   }, [defaultData, form]);
 
@@ -173,7 +159,9 @@ const AddEditAttackingStatsForm = ({
         return;
       }
 
-      toast.success(isEdit ? "Attacking Stats updated" : "Attacking Stats added");
+      toast.success(
+        isEdit ? "Attacking Stats updated" : "Attacking Stats added",
+      );
       queryClient.invalidateQueries({ queryKey: ["all-attacking"] });
       onOpenChange(false);
       form.reset();
@@ -192,8 +180,6 @@ const AddEditAttackingStatsForm = ({
             onSubmit={form.handleSubmit((values) => mutate(values))}
             className=" space-y-4"
           >
-
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
@@ -269,7 +255,7 @@ const AddEditAttackingStatsForm = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
-                     Shots outside PA
+                      Shots outside PA
                     </FormLabel>
                     <FormControl>
                       <Input
@@ -285,7 +271,7 @@ const AddEditAttackingStatsForm = ({
                   </FormItem>
                 )}
               />
-               <FormField
+              <FormField
                 control={form.control}
                 name="totalShots"
                 render={({ field }) => (
@@ -331,52 +317,50 @@ const AddEditAttackingStatsForm = ({
                 )}
               />
 
+              <FormField
+                control={form.control}
+                name="shotsOffTarget"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
+                      Shots Off Target
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        {...field}
+                        value={field.value ?? ""}
+                        placeholder="Enter off target"
+                        onChange={(e) => field.onChange(Number(e.target.value))}
+                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-          
-            <FormField
-              control={form.control}
-              name="shotsOffTarget"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
-                    Shots Off Target
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      {...field}
-                      value={field.value ?? ""}
-                      placeholder="Enter off target"
-                      onChange={(e) => field.onChange(Number(e.target.value))}
-                      className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="shootingAccuracy"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
+                      Shooting Accuracy
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
+                        placeholder="Enter Shooting accuracy"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-             <FormField
-              control={form.control}
-              name="shootingAccuracy"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
-                    Shooting Accuracy
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
-                      {...field}
-                      placeholder="Enter Shooting accuracy"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* <FormField
+              {/* <FormField
                 control={form.control}
                 name="shootingAccuracy"
                 render={({ field }) => (
@@ -422,26 +406,25 @@ const AddEditAttackingStatsForm = ({
                 )}
               /> */}
 
-                       <FormField
-              control={form.control}
-              name="passesAccuracy"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
-                    Passes Accuracy
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
-                      {...field}
-                      placeholder="Enter passes accuracy"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
+              <FormField
+                control={form.control}
+                name="passesAccuracy"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
+                      Passes Accuracy
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
+                        placeholder="Enter passes accuracy"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               <FormField
                 control={form.control}
@@ -453,21 +436,16 @@ const AddEditAttackingStatsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
-                        placeholder="Enter Take on"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
+                        placeholder="Enter Take on"
                       />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
-
-              </div>
+            </div>
 
             {/* Actions */}
             <div className="flex justify-end gap-3 pt-4">
@@ -493,4 +471,3 @@ const AddEditAttackingStatsForm = ({
 };
 
 export default AddEditAttackingStatsForm;
-

@@ -22,25 +22,25 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { DistributionStats } from "@/components/types/player-distribution-stats-data-type";
 
 type PlayerDistributionFormValues = {
-  passes: number;
-  passesinFinalThird: number;
-  passesinMiddleThird: number;
-  passesinOerensiveThird: number;
+  passes: string;
+  passesinFinalThird: string;
+  passesinMiddleThird: string;
+  passesinOerensiveThird: string;
 
-  kevPasses: number;
-  longPasses: number;
-  mediumPasses: number;
-  shortPasses: number;
+  kevPasses: string;
+  longPasses: string;
+  mediumPasses: string;
+  shortPasses: string;
 
-  passesForward: number;
-  passesSidewavs: number;
-  passesBackward: number;
+  passesForward: string;
+  passesSidewavs: string;
+  passesBackward: string;
 
-  passesReceived: number;
-  crosses: number;
-  stepIn: number;
-  turnoverConceded: number;
-  // mostPassesPlayerBetween: number;
+  passesReceived: string;
+  crosses: string;
+  stepIn: string;
+  turnoverConceded: string;
+  // mostPassesPlayerBetween: string;
   passTheMost: string;
   ballTheMost: string;
 };
@@ -56,79 +56,33 @@ interface Props {
 // Zod Validation Schema
 // ----------------------
 export const PlayerDistributionSchema = z.object({
-  passes: z
-    .number({ message: "Passes must be a number" })
-    .min(0, "Passes cannot be negative"),
+  passes: z.string().min(1, "Passes is required"),
 
-  passesinFinalThird: z
-    .number({ message: "Passes in final third must be a number" })
-    .min(0, "Passes in final third cannot be negative"),
-
-  passesinMiddleThird: z
-    .number({ message: "Passes in middle third must be a number" })
-    .min(0, "Passes in middle third cannot be negative"),
-
+  passesinFinalThird: z.string().min(1, "Passes in final third is required"),
+  passesinMiddleThird: z.string().min(1, "Passes in middle third  is required"),
   passesinOerensiveThird: z
-    .number({ message: "Passes in offensive third must be a number" })
-    .min(0, "Passes in offensive third cannot be negative"),
-
-  kevPasses: z
-    .number({ message: "Key passes must be a number" })
-    .min(0, "Key passes cannot be negative"),
-
-  longPasses: z
-    .number({ message: "Long passes must be a number" })
-    .min(0, "Long passes cannot be negative"),
-
-  mediumPasses: z
-    .number({ message: "Medium passes must be a number" })
-    .min(0, "Medium passes cannot be negative"),
-
-  shortPasses: z
-    .number({ message: "Short passes must be a number" })
-    .min(0, "Short passes cannot be negative"),
-
-  passesForward: z
-    .number({ message: "Forward passes must be a number" })
-    .min(0, "Forward passes cannot be negative"),
-
-  passesSidewavs: z
-    .number({ message: "Sideways passes must be a number" })
-    .min(0, "Sideways passes cannot be negative"),
-
-  passesBackward: z
-    .number({ message: "Backward passes must be a number" })
-    .min(0, "Backward passes cannot be negative"),
-
-  passesReceived: z
-    .number({ message: "Passes received must be a number" })
-    .min(0, "Passes received cannot be negative"),
-
-  crosses: z
-    .number({ message: "Crosses must be a number" })
-    .min(0, "Crosses cannot be negative"),
-
-  stepIn: z
-    .number({ message: "Step-ins must be a number" })
-    .min(0, "Step-ins cannot be negative"),
-
-  turnoverConceded: z
-    .number({ message: "Turnovers conceded must be a number" })
-    .min(0, "Turnovers conceded cannot be negative"),
+    .string()
+    .min(1, "Passes in offensive third is required"),
+  kevPasses: z.string().min(1, "Key passes is required"),
+  longPasses: z.string().min(1, "Long passes is required"),
+  mediumPasses: z.string().min(1, "Medium passes is required"),
+  shortPasses: z.string().min(1, "Short passes is required"),
+  passesForward: z.string().min(1, "Forward passes is required"),
+  passesSidewavs: z.string().min(1, "Passes Sideways is required"),
+  passesBackward: z.string().min(1, "Backward passes is required"),
+  passesReceived: z.string().min(1, "Passes received is required"),
+  crosses: z.string().min(1, "Crosses is required"),
+  stepIn: z.string().min(1, "Step-ins is required"),
+  turnoverConceded: z.string().min(1, "Turnovers conceded is required"),
 
   // mostPassesPlayerBetween: z
   //   .number({ message: "Most passes between players must be a number" })
   //   .min(0, "Most passes between players cannot be negative"),
 
-  passTheMost: z
-    .string()
-    .min(1, "Pass The Most is required"),
+  passTheMost: z.string().min(1, "Pass The Most is required"),
 
-  ballTheMost: z
-    .string()
-    .min(1, "Ball The Most is required"),
+  ballTheMost: z.string().min(1, "Ball The Most is required"),
 });
-
 
 const AddEditPlayerDistributionForm = ({
   open,
@@ -144,63 +98,56 @@ const AddEditPlayerDistributionForm = ({
   const form = useForm<PlayerDistributionFormValues>({
     resolver: zodResolver(PlayerDistributionSchema),
     defaultValues: {
-      passes: undefined,
-      passesinFinalThird: undefined,
-      passesinMiddleThird: undefined,
-      passesinOerensiveThird: undefined,
+      passes: "",
+      passesinFinalThird: "",
+      passesinMiddleThird: "",
+      passesinOerensiveThird: "",
 
-      kevPasses: undefined,
-      longPasses: undefined,
-      mediumPasses: undefined,
-      shortPasses: undefined,
+      kevPasses: "",
+      longPasses: "",
+      mediumPasses: "",
+      shortPasses: "",
 
-      passesForward: undefined,
-      passesSidewavs: undefined,
-      passesBackward: undefined,
+      passesForward: "",
+      passesSidewavs: "",
+      passesBackward: "",
 
-      passesReceived: undefined,
-      crosses: undefined,
-      stepIn: undefined,
-      turnoverConceded: undefined,
-      // mostPassesPlayerBetween: undefined,
+      passesReceived: "",
+      crosses: "",
+      stepIn: "",
+      turnoverConceded: "",
+      // mostPassesPlayerBetween: "",
       passTheMost: "",
-      ballTheMost: ""
-    }
-
-
-
+      ballTheMost: "",
+    },
   });
 
   // 🔁 Edit mode prefill
   useEffect(() => {
     if (defaultData) {
       form.reset({
-        passes: defaultData?.passes ?? 0,
-        passesinFinalThird: defaultData?.passesinFinalThird ?? 0,
-        passesinMiddleThird: defaultData?.passesinMiddleThird ?? 0,
-        passesinOerensiveThird: defaultData?.passesinOerensiveThird ?? 0,
+        passes: defaultData?.passes ?? "",
+        passesinFinalThird: defaultData?.passesinFinalThird ?? "",
+        passesinMiddleThird: defaultData?.passesinMiddleThird ?? "",
+        passesinOerensiveThird: defaultData?.passesinOerensiveThird ?? "",
 
-        kevPasses: defaultData?.kevPasses ?? 0,
-        longPasses: defaultData?.longPasses ?? 0,
-        mediumPasses: defaultData?.mediumPasses ?? 0,
-        shortPasses: defaultData?.shortPasses ?? 0,
+        kevPasses: defaultData?.kevPasses ?? "",
+        longPasses: defaultData?.longPasses ?? "",
+        mediumPasses: defaultData?.mediumPasses ?? "",
+        shortPasses: defaultData?.shortPasses ?? "",
 
-        passesForward: defaultData?.passesForward ?? 0,
-        passesSidewavs: defaultData?.passesSidewavs ?? 0,
-        passesBackward: defaultData?.passesBackward ?? 0,
+        passesForward: defaultData?.passesForward ?? "",
+        passesSidewavs: defaultData?.passesSidewavs ?? "",
+        passesBackward: defaultData?.passesBackward ?? "",
 
-        passesReceived: defaultData?.passesReceived ?? 0,
-        crosses: defaultData?.crosses ?? 0,
-        stepIn: defaultData?.stepIn ?? 0,
-        turnoverConceded: defaultData?.turnoverConceded ?? 0,
+        passesReceived: defaultData?.passesReceived ?? "",
+        crosses: defaultData?.crosses ?? "",
+        stepIn: defaultData?.stepIn ?? "",
+        turnoverConceded: defaultData?.turnoverConceded ?? "",
         // mostPassesPlayerBetween: defaultData?.mostPassesPlayerBetween ?? 0,
         passTheMost: defaultData?.passTheMost ?? "",
         ballTheMost: defaultData?.ballTheMost ?? "",
       });
-
-
-
-
     }
   }, [defaultData, form]);
 
@@ -230,7 +177,11 @@ const AddEditPlayerDistributionForm = ({
         return;
       }
 
-      toast.success(isEdit ? "Player Distribution Stats updated" : "Player Distribution Stats added");
+      toast.success(
+        isEdit
+          ? "Player Distribution Stats updated"
+          : "Player Distribution Stats added",
+      );
       queryClient.invalidateQueries({ queryKey: ["all-distributionstats"] });
       onOpenChange(false);
       form.reset();
@@ -241,7 +192,9 @@ const AddEditPlayerDistributionForm = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="undefined max-w-2xl min-h-[400px] md:max-h-[600px] overflow-auto  !rounded-[12px]  bg-white">
         <h3 className="text-xl font-semibold mb-4">
-          {isEdit ? "Edit Player Distribution Stats" : "Add Player Distribution Stats"}
+          {isEdit
+            ? "Edit Player Distribution Stats"
+            : "Add Player Distribution Stats"}
         </h3>
 
         <Form {...form}>
@@ -249,25 +202,21 @@ const AddEditPlayerDistributionForm = ({
             onSubmit={form.handleSubmit((values) => mutate(values))}
             className=" space-y-4"
           >
-
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <FormField
                 control={form.control}
                 name="passes"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
+                    <FormLabel className="text-base font-semibold leading-[120%] text-[#131313]">
                       Passes
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Passes"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        className="h-[44px] w-full rounded-[12px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -280,61 +229,57 @@ const AddEditPlayerDistributionForm = ({
                 name="passesinFinalThird"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
+                    <FormLabel className="text-base font-semibold leading-[120%] text-[#131313]">
                       Passes in Final Third
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Passes in final third"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        className="h-[44px] w-full rounded-[12px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="passesinMiddleThird"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
+                    <FormLabel className="text-base font-semibold leading-[120%] text-[#131313]">
                       Passes in Middle Third
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter passes in middle third"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        className="h-[44px] w-full rounded-[12px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="passesinOerensiveThird"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
-                      Passes in Defensive Third
+                    <FormLabel className="text-base font-semibold leading-[120%] text-[#131313]">
+                      Passes in Offensive Third
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
+                        type="text"
+                        placeholder="Enter Passes in offensive third"
+                        className="h-[44px] w-full rounded-[12px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]"
                         {...field}
-                        value={field.value ?? ""}
-                        placeholder="Enter Passes in Defensive third"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
                       />
                     </FormControl>
                     <FormMessage />
@@ -347,39 +292,36 @@ const AddEditPlayerDistributionForm = ({
                 name="kevPasses"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
+                    <FormLabel className="text-base font-semibold leading-[120%] text-[#131313]">
                       Key Passes
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Key Passes"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        className="h-[44px] w-full rounded-[12px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="longPasses"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
+                    <FormLabel className="text-base font-semibold leading-[120%] text-[#131313]">
                       Long Passes
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter long passes"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        className="h-[44px] w-full rounded-[12px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -392,17 +334,15 @@ const AddEditPlayerDistributionForm = ({
                 name="mediumPasses"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
+                    <FormLabel className="text-base font-semibold leading-[120%] text-[#131313]">
                       Medium Passes
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Medium Passes"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        className="h-[44px] w-full rounded-[12px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -410,24 +350,20 @@ const AddEditPlayerDistributionForm = ({
                 )}
               />
 
-
-
               <FormField
                 control={form.control}
                 name="shortPasses"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
+                    <FormLabel className="text-base font-semibold leading-[120%] text-[#131313]">
                       Short Passes
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
-                        onChange={(e) => field.onChange(Number(e.target.value))}
+                        type="text"
                         placeholder="Enter Short Passes"
-                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        className="h-[44px] w-full rounded-[12px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -440,17 +376,15 @@ const AddEditPlayerDistributionForm = ({
                 name="passesForward"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
+                    <FormLabel className="text-base font-semibold leading-[120%] text-[#131313]">
                       Passes Forward
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Passes Forward"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        className="h-[44px] w-full rounded-[12px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -463,39 +397,15 @@ const AddEditPlayerDistributionForm = ({
                 name="passesSidewavs"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
+                    <FormLabel className="text-base font-semibold leading-[120%] text-[#131313]">
                       Passes Sideways
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
+                        type="text"
+                        placeholder="Enter passes sideways"
+                        className="h-[44px] w-full rounded-[12px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]"
                         {...field}
-                        value={field.value ?? ""}
-                        placeholder="Enter passes shdeways"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="passesBackward"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
-                      Passes Backward
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
-                        placeholder="Enter passes backward"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
                       />
                     </FormControl>
                     <FormMessage />
@@ -503,23 +413,41 @@ const AddEditPlayerDistributionForm = ({
                 )}
               />
 
+              <FormField
+                control={form.control}
+                name="passesBackward"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base font-semibold leading-[120%] text-[#131313]">
+                      Passes Backward
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Enter passes backward"
+                        className="h-[44px] w-full rounded-[12px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               <FormField
                 control={form.control}
                 name="passesReceived"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
+                    <FormLabel className="text-base font-semibold leading-[120%] text-[#131313]">
                       Passes Received
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter passes received"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        className="h-[44px] w-full rounded-[12px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -527,24 +455,20 @@ const AddEditPlayerDistributionForm = ({
                 )}
               />
 
-
-
               <FormField
                 control={form.control}
                 name="crosses"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
+                    <FormLabel className="text-base font-semibold leading-[120%] text-[#131313]">
                       Crosses
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Crosses"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        className="h-[44px] w-full rounded-[12px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -557,17 +481,15 @@ const AddEditPlayerDistributionForm = ({
                 name="stepIn"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
+                    <FormLabel className="text-base font-semibold leading-[120%] text-[#131313]">
                       Step In
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Step In"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        className="h-[44px] w-full rounded-[12px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -580,60 +502,35 @@ const AddEditPlayerDistributionForm = ({
                 name="turnoverConceded"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
+                    <FormLabel className="text-base font-semibold leading-[120%] text-[#131313]">
                       Turnover Conceded
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Turnover Conceded"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        className="h-[44px] w-full rounded-[12px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              {/* <FormField
-                control={form.control}
-                name="mostPassesPlayerBetween"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
-                      Most Passes Player Between
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
-                        placeholder="Enter Most Passes Player Between"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              /> */}
 
               <FormField
                 control={form.control}
                 name="passTheMost"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
-                      {/* Who do you pass the to the most? */}
+                    <FormLabel className="text-base font-semibold leading-[120%] text-[#131313]">
                       Who do you pass the ball to the most?
                     </FormLabel>
                     <FormControl>
                       <Input
-                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        placeholder="Enter who do you pass the ball to the most?"
+                        className="h-[44px] w-full rounded-[12px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]"
                         {...field}
-                        placeholder="Enter who do you pass the to the most?"
                       />
                     </FormControl>
                     <FormMessage />
@@ -646,23 +543,20 @@ const AddEditPlayerDistributionForm = ({
                 name="ballTheMost"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
-                      Who Pass The ball to you the most?
+                    <FormLabel className="text-base font-semibold leading-[120%] text-[#131313]">
+                      Who passes the ball to you the most?
                     </FormLabel>
                     <FormControl>
                       <Input
-                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        placeholder="Enter who passes the ball to you the most?"
+                        className="h-[44px] w-full rounded-[12px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]"
                         {...field}
-                        placeholder="Enter who pass the ball to you the most?"
                       />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
-
-
             </div>
 
             {/* Actions */}
@@ -689,4 +583,3 @@ const AddEditPlayerDistributionForm = ({
 };
 
 export default AddEditPlayerDistributionForm;
-

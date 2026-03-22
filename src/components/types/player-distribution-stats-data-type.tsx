@@ -18,25 +18,25 @@ export interface DistributionStats {
   _id: string;
   gk: GkUser;
 
-  passes: number;
-  passesinFinalThird: number;
-  passesinMiddleThird: number;
-  passesinOerensiveThird: number;
+  passes: string;
+  passesinFinalThird: string;
+  passesinMiddleThird: string;
+  passesinOerensiveThird: string;
 
-  kevPasses: number;
-  longPasses: number;
-  mediumPasses: number;
-  shortPasses: number;
+  kevPasses: string;
+  longPasses: string;
+  mediumPasses: string;
+  shortPasses: string;
 
-  passesForward: number;
-  passesSidewavs: number;
-  passesBackward: number;
+  passesForward: string;
+  passesSidewavs: string;
+  passesBackward: string;
 
-  passesReceived: number;
-  crosses: number;
-  stepIn: number;
-  turnoverConceded: number;
-  mostPassesPlayerBetween: number;
+  passesReceived: string;
+  crosses: string;
+  stepIn: string;
+  turnoverConceded: string;
+  mostPassesPlayerBetween: string;
   passTheMost: string;
   ballTheMost: string;
 

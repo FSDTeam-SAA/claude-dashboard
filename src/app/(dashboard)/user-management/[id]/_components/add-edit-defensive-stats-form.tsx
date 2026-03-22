@@ -37,8 +37,8 @@ type DefensiveStatsFormValues = {
   crossBlocked: number;
 
   mistakes: number;
-  aerialDuels: number;
-  phvsicalDuels: number;
+  aerialDuels: string;
+  phvsicalDuels: string;
   ownGoals: number;
 };
 
@@ -101,13 +101,9 @@ export const defensiveStatsSchema = z.object({
     .number({ message: "Mistakes must be a number" })
     .min(0, "Mistakes cannot be negative"),
 
-  aerialDuels: z
-    .number({ message: "Aerial Duels must be a number" })
-    .min(0, "Aerial Duels cannot be negative"),
+  aerialDuels: z.string().min(1, "Aerial Duels is required"),
 
-  phvsicalDuels: z
-    .number({ message: "Physical Duels must be a number" })
-    .min(0, "Physical Duels cannot be negative"),
+  phvsicalDuels: z.string().min(1, "Physical Duels is required"),
 
   ownGoals: z
     .number({ message: "Own Goals must be a number" })
@@ -128,53 +124,51 @@ const AddEditDefensiveStatsForm = ({
   const form = useForm<DefensiveStatsFormValues>({
     resolver: zodResolver(defensiveStatsSchema),
     defaultValues: {
-  tackleAttempts: undefined,
-  tackleSucceededPossession: undefined,
-  tackleSucceededNOPossession: undefined,
-  tackleFailed: undefined,
+      tackleAttempts: undefined,
+      tackleSucceededPossession: undefined,
+      tackleSucceededNOPossession: undefined,
+      tackleFailed: undefined,
 
-  turnoverwon: undefined,
-  interceptions: undefined,
-  recoveries: undefined,
-  clearance: undefined,
+      turnoverwon: undefined,
+      interceptions: undefined,
+      recoveries: undefined,
+      clearance: undefined,
 
-  totalBlocked: undefined,
-  shotBlocked: undefined,
-  crossBlocked: undefined,
+      totalBlocked: undefined,
+      shotBlocked: undefined,
+      crossBlocked: undefined,
 
-  mistakes: undefined,
-  aerialDuels: undefined,
-  phvsicalDuels: undefined,
-  ownGoals: undefined,
-},
-
+      mistakes: undefined,
+      aerialDuels: "",
+      phvsicalDuels: "",
+      ownGoals: undefined,
+    },
   });
 
   // 🔁 Edit mode prefill
   useEffect(() => {
     if (defaultData) {
       form.reset({
-  tackleAttempts: defaultData?.tackleAttempts ?? 0,
-  tackleSucceededPossession: defaultData?.tackleSucceededPossession ?? 0,
-  tackleSucceededNOPossession: defaultData?.tackleSucceededNOPossession ?? 0,
-  tackleFailed: defaultData?.tackleFailed ?? 0,
+        tackleAttempts: defaultData?.tackleAttempts ?? 0,
+        tackleSucceededPossession: defaultData?.tackleSucceededPossession ?? 0,
+        tackleSucceededNOPossession:
+          defaultData?.tackleSucceededNOPossession ?? 0,
+        tackleFailed: defaultData?.tackleFailed ?? 0,
 
-  turnoverwon: defaultData?.turnoverwon ?? 0,
-  interceptions: defaultData?.interceptions ?? 0,
-  recoveries: defaultData?.recoveries ?? 0,
-  clearance: defaultData?.clearance ?? 0,
+        turnoverwon: defaultData?.turnoverwon ?? 0,
+        interceptions: defaultData?.interceptions ?? 0,
+        recoveries: defaultData?.recoveries ?? 0,
+        clearance: defaultData?.clearance ?? 0,
 
-  totalBlocked: defaultData?.totalBlocked ?? 0,
-  shotBlocked: defaultData?.shotBlocked ?? 0,
-  crossBlocked: defaultData?.crossBlocked ?? 0,
+        totalBlocked: defaultData?.totalBlocked ?? 0,
+        shotBlocked: defaultData?.shotBlocked ?? 0,
+        crossBlocked: defaultData?.crossBlocked ?? 0,
 
-  mistakes: defaultData?.mistakes ?? 0,
-  aerialDuels: defaultData?.aerialDuels ?? 0,
-  phvsicalDuels: defaultData?.phvsicalDuels ?? 0,
-  ownGoals: defaultData?.ownGoals ?? 0,
-});
-
-
+        mistakes: defaultData?.mistakes ?? 0,
+        aerialDuels: defaultData?.aerialDuels ?? "",
+        phvsicalDuels: defaultData?.phvsicalDuels ?? "",
+        ownGoals: defaultData?.ownGoals ?? 0,
+      });
     }
   }, [defaultData, form]);
 
@@ -204,7 +198,9 @@ const AddEditDefensiveStatsForm = ({
         return;
       }
 
-      toast.success(isEdit ? "Defensive Stats updated" : "Defensive Stats added");
+      toast.success(
+        isEdit ? "Defensive Stats updated" : "Defensive Stats added",
+      );
       queryClient.invalidateQueries({ queryKey: ["all-defensive"] });
       onOpenChange(false);
       form.reset();
@@ -223,8 +219,6 @@ const AddEditDefensiveStatsForm = ({
             onSubmit={form.handleSubmit((values) => mutate(values))}
             className=" space-y-4"
           >
-
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
@@ -255,7 +249,7 @@ const AddEditDefensiveStatsForm = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
-                      Tackle Succeeded: Possession 
+                      Tackle Succeeded: Possession
                     </FormLabel>
                     <FormControl>
                       <Input
@@ -316,7 +310,7 @@ const AddEditDefensiveStatsForm = ({
                   </FormItem>
                 )}
               />
-               <FormField
+              <FormField
                 control={form.control}
                 name="turnoverwon"
                 render={({ field }) => (
@@ -362,32 +356,30 @@ const AddEditDefensiveStatsForm = ({
                 )}
               />
 
+              <FormField
+                control={form.control}
+                name="recoveries"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
+                      Recoveries
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        {...field}
+                        value={field.value ?? ""}
+                        placeholder="Enter Recoveries"
+                        onChange={(e) => field.onChange(Number(e.target.value))}
+                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-          
-            <FormField
-              control={form.control}
-              name="recoveries"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
-                    Recoveries
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      {...field}
-                      value={field.value ?? ""}
-                      placeholder="Enter Recoveries"
-                      onChange={(e) => field.onChange(Number(e.target.value))}
-                      className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
+              <FormField
                 control={form.control}
                 name="clearance"
                 render={({ field }) => (
@@ -477,7 +469,7 @@ const AddEditDefensiveStatsForm = ({
                   </FormItem>
                 )}
               />
-               <FormField
+              <FormField
                 control={form.control}
                 name="mistakes"
                 render={({ field }) => (
@@ -510,10 +502,49 @@ const AddEditDefensiveStatsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
+                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
+                        placeholder="Enter Aerial Duels"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="phvsicalDuels"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
+                      Physical Duels
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
+                        placeholder="Enter Physical Duels"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="ownGoals"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
+                      Own Goals
+                    </FormLabel>
+                    <FormControl>
+                      <Input
                         type="number"
                         {...field}
                         value={field.value ?? ""}
-                        placeholder="Enter Aerial Duels"
+                        placeholder="Enter Own Goals"
                         onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
                       />
@@ -522,55 +553,7 @@ const AddEditDefensiveStatsForm = ({
                   </FormItem>
                 )}
               />
-
-
-           
-            <FormField
-              control={form.control}
-              name="phvsicalDuels"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
-                    Physical Duels
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      {...field}
-                      value={field.value ?? ""}
-                      placeholder="Enter Physical Duels"
-                      onChange={(e) => field.onChange(Number(e.target.value))}
-                      className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="ownGoals"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
-                    Own Goals
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      {...field}
-                      value={field.value ?? ""}
-                      placeholder="Enter Own Goals"
-                      onChange={(e) => field.onChange(Number(e.target.value))}
-                      className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-              </div>
+            </div>
 
             {/* Actions */}
             <div className="flex justify-end gap-3 pt-4">
@@ -596,4 +579,3 @@ const AddEditDefensiveStatsForm = ({
 };
 
 export default AddEditDefensiveStatsForm;
-

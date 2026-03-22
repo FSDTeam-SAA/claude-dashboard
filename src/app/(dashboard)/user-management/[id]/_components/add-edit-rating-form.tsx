@@ -25,12 +25,14 @@ import { useSession } from "next-auth/react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Rating } from "@/components/types/rating-data-type";
+import moment from "moment";
 
 type RatingFormValues = {
   rating: number;
   // position: string[];
   // numberOfGames: number;
   minutes: number;
+  date: string;
 };
 
 interface Props {
@@ -55,6 +57,7 @@ const ratingSchema = z.object({
   minutes: z
     .number({ message: "Minutes must be a number" })
     .min(0, "Minutes cannot be negative"),
+  date: z.string().min(1, "Date is required"),
 });
 
 const AddEditRatingForm = ({
@@ -68,20 +71,20 @@ const AddEditRatingForm = ({
   const token = (session?.data?.user as { accessToken: string })?.accessToken;
   const isEdit = Boolean(defaultData?._id);
 
-    //    const POSITIONS = [
-    //     { label: "GK", value: "gk" },
-    //     { label: "RB", value: "rb" },
-    //     { label: "LB", value: "lb" },
-    //     { label: "CBL", value: "cbl" },
-    //     { label: "CBR", value: "cbr" },
-    //     { label: "CM", value: "cm" },
-    //     { label: "AML", value: "aml" },
-    //     { label: "AMR", value: "amr" },
-    //     { label: "RW", value: "rw" },
-    //     { label: "LW", value: "lw" },
-    //     { label: "10", value: "10" },
-    //     { label: "Striker", value: "striker" },
-    // ]
+  //    const POSITIONS = [
+  //     { label: "GK", value: "gk" },
+  //     { label: "RB", value: "rb" },
+  //     { label: "LB", value: "lb" },
+  //     { label: "CBL", value: "cbl" },
+  //     { label: "CBR", value: "cbr" },
+  //     { label: "CM", value: "cm" },
+  //     { label: "AML", value: "aml" },
+  //     { label: "AMR", value: "amr" },
+  //     { label: "RW", value: "rw" },
+  //     { label: "LW", value: "lw" },
+  //     { label: "10", value: "10" },
+  //     { label: "Striker", value: "striker" },
+  // ]
 
   const form = useForm<RatingFormValues>({
     resolver: zodResolver(ratingSchema),
@@ -90,6 +93,7 @@ const AddEditRatingForm = ({
       // position: [],
       // numberOfGames: 0,
       minutes: undefined,
+      date: "",
     },
   });
 
@@ -101,6 +105,7 @@ const AddEditRatingForm = ({
         // position: defaultData.position,
         // numberOfGames: defaultData.numberOfGames,
         minutes: defaultData.minutes,
+        date: moment(defaultData.date).format("YYYY-MM-DD"),
       });
     }
   }, [defaultData, form]);
@@ -138,7 +143,6 @@ const AddEditRatingForm = ({
     },
   });
 
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-lg !rounded-[12px] bg-white">
@@ -151,6 +155,25 @@ const AddEditRatingForm = ({
             onSubmit={form.handleSubmit((values) => mutate(values))}
             className="space-y-4"
           >
+            <FormField
+              control={form.control}
+              name="date"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base leading-[120%] font-semibold text-[#131313]">
+                    Date
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                      type="date"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="rating"
@@ -316,4 +339,3 @@ const AddEditRatingForm = ({
 };
 
 export default AddEditRatingForm;
-

@@ -110,9 +110,6 @@ const DefensiveStatsPage = ({ id }: { id?: string }) => {
               <TableHead className="text-base font-medium leading-[150%] text-[#131313] text-center py-3 ">
                 Recoveries
               </TableHead>
-              <TableHead className="text-base font-medium leading-[150%] text-[#131313] text-center py-3 ">
-                Clearance
-              </TableHead>
               <TableHead className="text-base font-medium leading-[150%] text-[#131313] text-center py-3">
                 Action
               </TableHead>
@@ -143,9 +140,6 @@ const DefensiveStatsPage = ({ id }: { id?: string }) => {
                   </TableCell>
                   <TableCell className="text-base font-normal text-[#131313] leading-[150%] text-center py-3">
                     {item?.recoveries || "N/A"}
-                  </TableCell>
-                  <TableCell className="text-base font-normal text-[#131313] leading-[150%] text-center py-3">
-                    {item?.clearance || "N/A"}
                   </TableCell>
                   <TableCell >
                     <div className="h-full w-auto flex items-end justify-center gap-6 py-3">

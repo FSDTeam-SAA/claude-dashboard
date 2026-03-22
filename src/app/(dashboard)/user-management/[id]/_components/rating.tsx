@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useSession } from 'next-auth/react';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import {
   Table,
@@ -18,44 +18,50 @@ import NotFound from "@/components/shared/NotFound/NotFound";
 import { SquarePen } from "lucide-react";
 import ClaudePagination from "@/components/ui/claude-pagination";
 import DeleteModal from "@/components/modals/delete-modal";
-import { Rating, RatingsApiResponse } from "@/components/types/rating-data-type";
+import {
+  Rating,
+  RatingsApiResponse,
+} from "@/components/types/rating-data-type";
 import AddEditRatingForm from "./add-edit-rating-form";
+import moment from "moment";
 
 const RatingPage = ({ id }: { id?: string }) => {
-  console.log("view data", id)
+  console.log("view data", id);
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [ratingId, setRatingId] = useState("");
-  const [selectedRating, setSelectedRating] =
-    useState<Rating | null>(null);
+  const [selectedRating, setSelectedRating] = useState<Rating | null>(null);
   const [addRatingForm, setAddRatingForm] = useState(false);
   const queryClient = useQueryClient();
-  console.log(queryClient)
+  console.log(queryClient);
   const session = useSession();
   const token = (session?.data?.user as { accessToken: string })?.accessToken;
 
-  console.log(setRatingId)
+  console.log(setRatingId);
 
   const { data, isLoading, isError, error } = useQuery<RatingsApiResponse>({
     queryKey: ["all-rating", id, currentPage],
     queryFn: async () => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/rating/${id}?page=${currentPage}&limit=8`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/rating/${id}?page=${currentPage}&limit=8`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         },
-      }
       );
       return res.json();
     },
     enabled: !!token,
   });
 
-  console.log(data)
+  console.log(data);
 
-  const totalPages = data?.meta ? Math.ceil(data.meta.total / data.meta.limit) : 0;
+  const totalPages = data?.meta
+    ? Math.ceil(data.meta.total / data.meta.limit)
+    : 0;
 
   let content;
 
@@ -71,32 +77,24 @@ const RatingPage = ({ id }: { id?: string }) => {
         <ErrorContainer message={error?.message || "Something went wrong"} />
       </div>
     );
-  } else if (
-    data &&
-    data?.data &&
-    data?.data?.length === 0
-  ) {
+  } else if (data && data?.data && data?.data?.length === 0) {
     content = (
       <div>
         <NotFound message="Oops! No data available. Modify your filters or check your internet connection." />
       </div>
     );
-  } else if (
-    data &&
-    data?.data &&
-    data?.data?.length > 0
-  ) {
+  } else if (data && data?.data && data?.data?.length > 0) {
     content = (
       <div>
         <Table className="">
           <TableHeader className="bg-primary/15 rounded-t-[12px]">
             <TableRow className="">
               <TableHead className="text-base font-medium leading-[150%] text-[#131313] py-3 pl-6">
+                Date
+              </TableHead>
+              <TableHead className="text-base font-medium leading-[150%] text-[#131313] text-center py-3 ">
                 Rating
               </TableHead>
-              {/* <TableHead className="text-base font-medium leading-[150%] text-[#131313] text-center py-3 ">
-                Position
-              </TableHead> */}
               <TableHead className="text-base font-medium leading-[150%] text-[#131313] text-center py-3 ">
                 Number of games
               </TableHead>
@@ -113,21 +111,21 @@ const RatingPage = ({ id }: { id?: string }) => {
               return (
                 <TableRow key={index} className="">
                   <TableCell className="w-[267px] text-base font-medium text-[#131313] leading-[150%] pl-6 py-3">
+                    {moment(item.date).format("MMM DD, YYYY")}
+                  </TableCell>
 
+                  <TableCell className="text-base font-normal text-[#131313] leading-[150%] text-center py-3">
                     {item?.rating || 0}
                   </TableCell>
-                  {/* <TableCell className="text-base font-normal text-[#131313] leading-[150%] text-center py-3">
-                    {item?.position?.join(", ") || "N/A"}
-                  </TableCell> */}
+
                   <TableCell className="text-base font-normal text-[#131313] leading-[150%] text-center py-3">
                     {item?.gamesNumber || "N/A"}
                   </TableCell>
                   <TableCell className="text-base font-normal text-[#131313] leading-[150%] text-center py-3">
                     {item?.minutes || "N/A"}
                   </TableCell>
-                  <TableCell >
+                  <TableCell>
                     <div className="h-full w-auto flex items-end justify-center gap-6 py-3">
-
                       <button
                         onClick={() => {
                           setSelectedRating(item);
@@ -137,7 +135,6 @@ const RatingPage = ({ id }: { id?: string }) => {
                       >
                         <SquarePen className="h-6 w-6 text-[#181818]" />
                       </button>
-
 
                       {/* <button
                         onClick={() => {
@@ -159,8 +156,7 @@ const RatingPage = ({ id }: { id?: string }) => {
     );
   }
 
-
-  // delete national team player 
+  // delete national team player
   const { mutate } = useMutation({
     mutationKey: ["delete-rating"],
     mutationFn: async (id: string) => {
@@ -172,7 +168,7 @@ const RatingPage = ({ id }: { id?: string }) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
       return res.json();
     },
@@ -194,36 +190,38 @@ const RatingPage = ({ id }: { id?: string }) => {
   };
   return (
     <div>
-      <div className='pt-2'>
+      <div className="pt-2">
         <div className="w-full flex items-center justify-between">
-
-          <h3 className='text-2xl md:text-3xl  text-[#131313] font-semibold leading-[120%]'>Rating</h3>
-          <button onClick={() => {
-            setSelectedRating(null);
-            setAddRatingForm(true);
-          }} className="bg-primary text-white py-3 px-4 rounded-[12px] text-base leading-normal font-semibold">Add Rating</button>
+          <h3 className="text-2xl md:text-3xl  text-[#131313] font-semibold leading-[120%]">
+            Rating
+          </h3>
+          <button
+            onClick={() => {
+              setSelectedRating(null);
+              setAddRatingForm(true);
+            }}
+            className="bg-primary text-white py-3 px-4 rounded-[12px] text-base leading-normal font-semibold"
+          >
+            Add Rating
+          </button>
         </div>
 
-        <div className="pt-6">
-          {content}
-        </div>
+        <div className="pt-6">{content}</div>
         {/* pagination  */}
-        {
-          totalPages > 1 && (
-            <div className="w-full flex items-center justify-between py-6">
-              <p className="text-base font-normal text-[#68706A] leading-[150%]">
-                Showing {currentPage} to 8 of {data?.meta?.total} results
-              </p>
-              <div>
-                <ClaudePagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={(page) => setCurrentPage(page)}
-                />
-              </div>
+        {totalPages > 1 && (
+          <div className="w-full flex items-center justify-between py-6">
+            <p className="text-base font-normal text-[#68706A] leading-[150%]">
+              Showing {currentPage} to 8 of {data?.meta?.total} results
+            </p>
+            <div>
+              <ClaudePagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={(page) => setCurrentPage(page)}
+              />
             </div>
-          )
-        }
+          </div>
+        )}
 
         {/* delete modal  */}
         {deleteModalOpen && (
@@ -239,38 +237,18 @@ const RatingPage = ({ id }: { id?: string }) => {
         {/* add national team career form  */}
 
         <div>
-          {
-            addRatingForm && (
-              <AddEditRatingForm
-                open={addRatingForm}
-                onOpenChange={(open: boolean) => setAddRatingForm(open)}
-                defaultData={selectedRating}
-                playerId={id}
-              />
-            )
-          }
+          {addRatingForm && (
+            <AddEditRatingForm
+              open={addRatingForm}
+              onOpenChange={(open: boolean) => setAddRatingForm(open)}
+              defaultData={selectedRating}
+              playerId={id}
+            />
+          )}
         </div>
-
-
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default RatingPage
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export default RatingPage;
