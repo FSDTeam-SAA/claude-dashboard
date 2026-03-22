@@ -74,7 +74,7 @@ const UserRegistration = () => {
               key={item?._id}
               className="w-full flex items-center justify-between border-b border-[#E6E6E8] p-6"
             >
-              <div className='w-[230px] flex items-center gap-2'>
+              <div className='w-[220px] flex items-center gap-2'>
                 <div>
                   <Image src={item?.profileImage || "/assets/images/no-user.jpeg"} alt="Profile" width={100} height={100}  className="w-10 h-10 rounded-full object-cover" />
                 </div>

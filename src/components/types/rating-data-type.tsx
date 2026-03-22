@@ -19,6 +19,7 @@ export interface Rating {
   player: Player;
   rating: number;
   position: string[];
+  date: string;
   gamesNumber: number;
   minutes: number;
   createdAt: string;

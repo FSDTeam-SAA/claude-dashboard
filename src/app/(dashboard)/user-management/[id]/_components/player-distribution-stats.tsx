@@ -110,9 +110,6 @@ const PlayerDistributionStatsPage = ({ id }: { id?: string }) => {
               <TableHead className="text-base font-medium leading-[150%] text-[#131313] text-center py-3 ">
                 Medium Passes
               </TableHead>
-              <TableHead className="text-base font-medium leading-[150%] text-[#131313] text-center py-3 ">
-                Short Passes
-              </TableHead>
               <TableHead className="text-base font-medium leading-[150%] text-[#131313] text-center py-3">
                 Action
               </TableHead>
@@ -122,7 +119,7 @@ const PlayerDistributionStatsPage = ({ id }: { id?: string }) => {
             {data?.data?.map((item, index) => {
               return (
                 <TableRow key={index} className="">
-                  <TableCell className=" text-base font-medium text-[#131313] leading-[150%] pl-10 py-3">
+                  <TableCell className=" text-base font-medium text-[#131313] leading-[150%] pl-5 py-3">
 
                     {item?.passes || "N/A"}
                   </TableCell>
@@ -143,9 +140,6 @@ const PlayerDistributionStatsPage = ({ id }: { id?: string }) => {
                   </TableCell>
                   <TableCell className="text-base font-normal text-[#131313] leading-[150%] text-center py-3">
                     {item?.mediumPasses || "N/A"}
-                  </TableCell>
-                  <TableCell className="text-base font-normal text-[#131313] leading-[150%] text-center py-3">
-                    {item?.shortPasses || "N/A"}
                   </TableCell>
                   <TableCell >
                     <div className="h-full w-auto flex items-end justify-center gap-6 py-3">

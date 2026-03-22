@@ -28,8 +28,8 @@ export interface DefensiveStats {
   shotBlocked: number
   crossBlocked: number
   mistakes: number
-  aerialDuels: number
-  phvsicalDuels: number
+  aerialDuels: string
+  phvsicalDuels: string 
   ownGoals: number
   createdAt: string
   updatedAt: string
