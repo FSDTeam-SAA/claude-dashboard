@@ -20,8 +20,8 @@ export interface NationalTeam {
   teamName: string;
   category: string;
   debut: string; 
-  match: number;
-  goals: number;
+  match: string;
+  goals: string;
   createdAt: string;
   updatedAt: string;
   __v: number;

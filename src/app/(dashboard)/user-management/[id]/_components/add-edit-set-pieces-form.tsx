@@ -22,10 +22,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SetpiecesStats } from "@/components/types/set-pieces-data-type";
 
 type SetPiecesFormValues = {
-  freekicks: number;
-  freekicksShots: number;
-  freekicksShotsonTarget: number;
-  penaltyKicks: number;
+  freekicks: string;
+  freekicksShots: string;
+  freekicksShotsonTarget: string;
+  penaltyKicks: string;
 };
 
 interface Props {
@@ -39,18 +39,12 @@ interface Props {
 // Zod Validation Schema
 // ----------------------
 const setPiecesSchema = z.object({
-  freekicks: z
-    .number({ message: "Freekicks must be a number" })
-    .min(0, "Freekicks cannot be negative"),
-  freekicksShots: z
-    .number({ message: "Freekicks shots must be a number" })
-    .min(0, "Freekicks shots cannot be negative"),
+  freekicks: z.string().min(1, "Freekicks is required"),
+  freekicksShots: z.string().min(1, "Freekicks shots is required"),
   freekicksShotsonTarget: z
-    .number({ message: "Freekicks shots on target must be a number" })
-    .min(0, "Freekicks shots on target cannot be negative"),
-  penaltyKicks: z
-    .number({ message: "Penaltykicks shots on target must be a number" })
-    .min(0, "Penaltykicks cannot be negative"),
+    .string()
+    .min(1, "Freekicks shots on target is required"),
+  penaltyKicks: z.string().min(1, "Penalty kicks is required"),
 });
 
 const AddEditSetPiecesForm = ({
@@ -67,10 +61,10 @@ const AddEditSetPiecesForm = ({
   const form = useForm<SetPiecesFormValues>({
     resolver: zodResolver(setPiecesSchema),
     defaultValues: {
-      freekicks: undefined,
-      freekicksShots: undefined,
-      freekicksShotsonTarget: undefined,
-      penaltyKicks: undefined,
+      freekicks: "",
+      freekicksShots: "",
+      freekicksShotsonTarget: "",
+      penaltyKicks: "",
     },
   });
 
@@ -78,10 +72,10 @@ const AddEditSetPiecesForm = ({
   useEffect(() => {
     if (defaultData) {
       form.reset({
-        freekicks: defaultData.freekicks,
-        freekicksShots: defaultData.freekicksShots,
-        freekicksShotsonTarget: defaultData.freekicksShotsonTarget,
-        penaltyKicks: defaultData.penaltyKicks,
+        freekicks: defaultData.freekicks ?? "",
+        freekicksShots: defaultData.freekicksShots ?? "",
+        freekicksShotsonTarget: defaultData.freekicksShotsonTarget ?? "",
+        penaltyKicks: defaultData.penaltyKicks ?? "",
       });
     }
   }, [defaultData, form]);
@@ -141,12 +135,10 @@ const AddEditSetPiecesForm = ({
                   </FormLabel>
                   <FormControl>
                     <Input
-                      type="number"
-                      {...field}
-                      value={field.value ?? ""}
+                      type="text"
                       placeholder="Enter Freekicks"
-                      onChange={(e) => field.onChange(Number(e.target.value))}
                       className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />
@@ -164,12 +156,10 @@ const AddEditSetPiecesForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Freekicks shots"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -186,12 +176,10 @@ const AddEditSetPiecesForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Freekicks shots on target"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -208,12 +196,10 @@ const AddEditSetPiecesForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Penalty kicks"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -245,4 +231,3 @@ const AddEditSetPiecesForm = ({
 };
 
 export default AddEditSetPiecesForm;
-

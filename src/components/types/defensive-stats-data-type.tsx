@@ -16,21 +16,21 @@ export interface PaginationMeta {
 export interface DefensiveStats {
   _id: string
   player: Player
-  tackleAttempts: number
-  tackleSucceededPossession: number
-  tackleSucceededNOPossession: number
-  tackleFailed: number
-  turnoverwon: number
-  interceptions: number
-  recoveries: number
-  clearance: number
-  totalBlocked: number
-  shotBlocked: number
-  crossBlocked: number
-  mistakes: number
+  tackleAttempts: string
+  tackleSucceededPossession: string
+  tackleSucceededNOPossession: string
+  tackleFailed: string
+  turnoverwon: string
+  interceptions: string
+  recoveries: string
+  clearance: string
+  totalBlocked: string
+  shotBlocked: string
+  crossBlocked: string
+  mistakes: string
   aerialDuels: string
   phvsicalDuels: string 
-  ownGoals: number
+  ownGoals: string
   createdAt: string
   updatedAt: string
   __v: number
@@ -73,6 +73,5 @@ export interface Player {
   institute: string
   provider: "google" | "credentials"
 }
-
 
 

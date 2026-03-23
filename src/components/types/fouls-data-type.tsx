@@ -39,11 +39,11 @@ export interface FoulsPlayer {
 export interface FoulsData {
   _id: string;
   player: FoulsPlayer;
-  fouls: number;
-  foulswon: number;
-  redCards: number;
-  yellowCards: number;
-  offside:number;
+  fouls: string;
+  foulswon: string;
+  redCards: string;
+  yellowCards: string;
+  offside: string;
   createdAt: string;
   updatedAt: string;
   __v: number;

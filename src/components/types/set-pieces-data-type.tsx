@@ -14,10 +14,10 @@ export interface SetpiecesApiResponse {
 export interface SetpiecesStats {
   _id: string;
   player: Player;
-  freekicks: number;
-  freekicksShots: number;
-  freekicksShotsonTarget: number;
-  penaltyKicks: number;
+  freekicks: string;
+  freekicksShots: string;
+  freekicksShotsonTarget: string;
+  penaltyKicks: string;
   createdAt: string;
   updatedAt: string;
   __v: number;
@@ -61,5 +61,4 @@ export interface Player {
   institute: string;
   provider: "google" | "credentials";
 }
-
 

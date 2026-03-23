@@ -36,8 +36,8 @@ type NationalTeamFormValues = {
   teamName: string;
   category: string;
   debut: string;
-  goals: number;
-  match: number;
+  goals: string;
+  match: string;
   flag: File | null;
 };
 
@@ -57,12 +57,8 @@ const nationalTeamSchema = z.object({
     .string()
     .min(1, "Category is required"),
   debut: z.string().min(1, "Debut date is required"),
-  goals: z
-    .number({ message: "Goals must be a number" })
-    .min(0, "Goals cannot be negative"),
-  match: z
-    .number({ message: "Matches must be a number" })
-    .min(0, "Matches cannot be negative"),
+  goals: z.string().min(1, "Goals is required"),
+  match: z.string().min(1, "Matches is required"),
   flag: z
     .any()
     .nullable()
@@ -88,8 +84,8 @@ const AddNationalTeamForm = ({
       teamName: "",
       category: "",
       debut: "",
-      goals: undefined,
-      match: undefined,
+      goals: "",
+      match: "",
       flag: null,
     },
   });
@@ -101,8 +97,8 @@ const AddNationalTeamForm = ({
         teamName: defaultData.teamName,
         category: defaultData.category,
         debut: moment(defaultData.debut).format("YYYY-MM-DD"),
-        goals: defaultData.goals,
-        match: defaultData.match,
+        goals: defaultData.goals ?? "",
+        match: defaultData.match ?? "",
         flag: null,
       });
       setPreview(defaultData.flag);
@@ -217,12 +213,10 @@ const AddNationalTeamForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
-                        onChange={(e) => field.onChange(Number(e.target.value))}
+                        type="text"
                         placeholder="Enter goals"
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -239,12 +233,10 @@ const AddNationalTeamForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter matches"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -269,7 +261,7 @@ const AddNationalTeamForm = ({
                         <SelectTrigger className="w-full h-[48px] py-2 px-3 rounded-[8px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]">
                           <SelectValue placeholder="Select Category" />
                         </SelectTrigger>
-                        <SelectContent className="h-[200px] overflow-y-auto">
+                        <SelectContent className="h-[200px] overflow-y-auto bg-white">
                           {/* <SelectItem value="semi-professional">Semi Professional</SelectItem>
                           <SelectItem value="professional">Professional</SelectItem>
                           <SelectItem value="adult">Adult</SelectItem>
@@ -380,7 +372,6 @@ const AddNationalTeamForm = ({
 };
 
 export default AddNationalTeamForm;
-
 
 
 

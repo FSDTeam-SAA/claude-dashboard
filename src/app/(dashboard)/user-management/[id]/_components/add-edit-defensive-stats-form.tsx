@@ -22,24 +22,24 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { DefensiveStats } from "@/components/types/defensive-stats-data-type";
 
 type DefensiveStatsFormValues = {
-  tackleAttempts: number;
-  tackleSucceededPossession: number;
-  tackleSucceededNOPossession: number;
-  tackleFailed: number;
+  tackleAttempts: string;
+  tackleSucceededPossession: string;
+  tackleSucceededNOPossession: string;
+  tackleFailed: string;
 
-  turnoverwon: number;
-  interceptions: number;
-  recoveries: number;
-  clearance: number;
+  turnoverwon: string;
+  interceptions: string;
+  recoveries: string;
+  clearance: string;
 
-  totalBlocked: number;
-  shotBlocked: number;
-  crossBlocked: number;
+  totalBlocked: string;
+  shotBlocked: string;
+  crossBlocked: string;
 
-  mistakes: number;
+  mistakes: string;
   aerialDuels: string;
   phvsicalDuels: string;
-  ownGoals: number;
+  ownGoals: string;
 };
 
 interface Props {
@@ -53,61 +53,39 @@ interface Props {
 // Zod Validation Schema
 // ----------------------
 export const defensiveStatsSchema = z.object({
-  tackleAttempts: z
-    .number({ message: "Tackle Attempts must be a number" })
-    .min(0, "Tackle Attempts cannot be negative"),
+  tackleAttempts: z.string().min(1, "Tackle Attempts is required"),
 
   tackleSucceededPossession: z
-    .number({ message: "Succeeded Tackles (Possession) must be a number" })
-    .min(0, "Succeeded Tackles (Possession) cannot be negative"),
+    .string()
+    .min(1, "Succeeded Tackles (Possession) is required"),
 
   tackleSucceededNOPossession: z
-    .number({ message: "Succeeded Tackles (No Possession) must be a number" })
-    .min(0, "Succeeded Tackles (No Possession) cannot be negative"),
+    .string()
+    .min(1, "Succeeded Tackles (No Possession) is required"),
 
-  tackleFailed: z
-    .number({ message: "Failed Tackles must be a number" })
-    .min(0, "Failed Tackles cannot be negative"),
+  tackleFailed: z.string().min(1, "Failed Tackles is required"),
 
-  turnoverwon: z
-    .number({ message: "Turnovers Won must be a number" })
-    .min(0, "Turnovers Won cannot be negative"),
+  turnoverwon: z.string().min(1, "Turnovers Won is required"),
 
-  interceptions: z
-    .number({ message: "Interceptions must be a number" })
-    .min(0, "Interceptions cannot be negative"),
+  interceptions: z.string().min(1, "Interceptions is required"),
 
-  recoveries: z
-    .number({ message: "Recoveries must be a number" })
-    .min(0, "Recoveries cannot be negative"),
+  recoveries: z.string().min(1, "Recoveries is required"),
 
-  clearance: z
-    .number({ message: "Clearances must be a number" })
-    .min(0, "Clearances cannot be negative"),
+  clearance: z.string().min(1, "Clearances is required"),
 
-  totalBlocked: z
-    .number({ message: "Total Blocks must be a number" })
-    .min(0, "Total Blocks cannot be negative"),
+  totalBlocked: z.string().min(1, "Total Blocks is required"),
 
-  shotBlocked: z
-    .number({ message: "Shots Blocked must be a number" })
-    .min(0, "Shots Blocked cannot be negative"),
+  shotBlocked: z.string().min(1, "Shots Blocked is required"),
 
-  crossBlocked: z
-    .number({ message: "Crosses Blocked must be a number" })
-    .min(0, "Crosses Blocked cannot be negative"),
+  crossBlocked: z.string().min(1, "Crosses Blocked is required"),
 
-  mistakes: z
-    .number({ message: "Mistakes must be a number" })
-    .min(0, "Mistakes cannot be negative"),
+  mistakes: z.string().min(1, "Mistakes is required"),
 
   aerialDuels: z.string().min(1, "Aerial Duels is required"),
 
   phvsicalDuels: z.string().min(1, "Physical Duels is required"),
 
-  ownGoals: z
-    .number({ message: "Own Goals must be a number" })
-    .min(0, "Own Goals cannot be negative"),
+  ownGoals: z.string().min(1, "Own Goals is required"),
 });
 
 const AddEditDefensiveStatsForm = ({
@@ -124,24 +102,24 @@ const AddEditDefensiveStatsForm = ({
   const form = useForm<DefensiveStatsFormValues>({
     resolver: zodResolver(defensiveStatsSchema),
     defaultValues: {
-      tackleAttempts: undefined,
-      tackleSucceededPossession: undefined,
-      tackleSucceededNOPossession: undefined,
-      tackleFailed: undefined,
+      tackleAttempts: "",
+      tackleSucceededPossession: "",
+      tackleSucceededNOPossession: "",
+      tackleFailed: "",
 
-      turnoverwon: undefined,
-      interceptions: undefined,
-      recoveries: undefined,
-      clearance: undefined,
+      turnoverwon: "",
+      interceptions: "",
+      recoveries: "",
+      clearance: "",
 
-      totalBlocked: undefined,
-      shotBlocked: undefined,
-      crossBlocked: undefined,
+      totalBlocked: "",
+      shotBlocked: "",
+      crossBlocked: "",
 
-      mistakes: undefined,
+      mistakes: "",
       aerialDuels: "",
       phvsicalDuels: "",
-      ownGoals: undefined,
+      ownGoals: "",
     },
   });
 
@@ -149,25 +127,26 @@ const AddEditDefensiveStatsForm = ({
   useEffect(() => {
     if (defaultData) {
       form.reset({
-        tackleAttempts: defaultData?.tackleAttempts ?? 0,
-        tackleSucceededPossession: defaultData?.tackleSucceededPossession ?? 0,
+        tackleAttempts: defaultData?.tackleAttempts ?? "",
+        tackleSucceededPossession:
+          defaultData?.tackleSucceededPossession ?? "",
         tackleSucceededNOPossession:
-          defaultData?.tackleSucceededNOPossession ?? 0,
-        tackleFailed: defaultData?.tackleFailed ?? 0,
+          defaultData?.tackleSucceededNOPossession ?? "",
+        tackleFailed: defaultData?.tackleFailed ?? "",
 
-        turnoverwon: defaultData?.turnoverwon ?? 0,
-        interceptions: defaultData?.interceptions ?? 0,
-        recoveries: defaultData?.recoveries ?? 0,
-        clearance: defaultData?.clearance ?? 0,
+        turnoverwon: defaultData?.turnoverwon ?? "",
+        interceptions: defaultData?.interceptions ?? "",
+        recoveries: defaultData?.recoveries ?? "",
+        clearance: defaultData?.clearance ?? "",
 
-        totalBlocked: defaultData?.totalBlocked ?? 0,
-        shotBlocked: defaultData?.shotBlocked ?? 0,
-        crossBlocked: defaultData?.crossBlocked ?? 0,
+        totalBlocked: defaultData?.totalBlocked ?? "",
+        shotBlocked: defaultData?.shotBlocked ?? "",
+        crossBlocked: defaultData?.crossBlocked ?? "",
 
-        mistakes: defaultData?.mistakes ?? 0,
+        mistakes: defaultData?.mistakes ?? "",
         aerialDuels: defaultData?.aerialDuels ?? "",
         phvsicalDuels: defaultData?.phvsicalDuels ?? "",
-        ownGoals: defaultData?.ownGoals ?? 0,
+        ownGoals: defaultData?.ownGoals ?? "",
       });
     }
   }, [defaultData, form]);
@@ -230,12 +209,10 @@ const AddEditDefensiveStatsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Tackle Attempts"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -253,12 +230,10 @@ const AddEditDefensiveStatsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Tackle Succeeded"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -275,12 +250,10 @@ const AddEditDefensiveStatsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Tackle Succeeded"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -298,12 +271,10 @@ const AddEditDefensiveStatsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Tackie Failed"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -320,12 +291,10 @@ const AddEditDefensiveStatsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Turnover Won"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -343,12 +312,10 @@ const AddEditDefensiveStatsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Interceptions"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -366,12 +333,10 @@ const AddEditDefensiveStatsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Recoveries"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -389,12 +354,10 @@ const AddEditDefensiveStatsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Clearance"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -412,12 +375,10 @@ const AddEditDefensiveStatsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Total Blocked"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -434,12 +395,10 @@ const AddEditDefensiveStatsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Shot Blocked"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -457,12 +416,10 @@ const AddEditDefensiveStatsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Cross Blocked"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -479,12 +436,10 @@ const AddEditDefensiveStatsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Mistakes"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -541,12 +496,10 @@ const AddEditDefensiveStatsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Own Goals"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
