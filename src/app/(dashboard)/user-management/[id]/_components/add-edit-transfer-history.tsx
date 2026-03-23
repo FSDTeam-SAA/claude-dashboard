@@ -47,11 +47,11 @@ interface Props {
 // ----------------------
 
 export const transferHistorySchema = z.object({
-  season: z.string().min(1, "Season is required"),
+  season: z.string(),
 
-  date: z.string().min(1, "Date is required"), // ISO string
+  date: z.string(), // ISO string
 
-  leftClubName: z.string().min(1, "Left club name is required"),
+  leftClubName: z.string(),
 
   leftClub: z
     .any()
@@ -69,7 +69,7 @@ export const transferHistorySchema = z.object({
       "Left country image must be a valid file",
     ),
 
-  joinedclubName: z.string().min(1, "Joined club name is required"),
+  joinedclubName: z.string(),
 
   joinedClub: z
     .any()
@@ -219,7 +219,7 @@ const AddEditTransferHistoryForm = ({
                         placeholder="Enter team name"
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red-500" />
                   </FormItem>
                 )}
               />
@@ -240,7 +240,7 @@ const AddEditTransferHistoryForm = ({
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red-500" />
                   </FormItem>
                 )}
               />
@@ -260,7 +260,7 @@ const AddEditTransferHistoryForm = ({
                       placeholder="Enter Left Club Name"
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-500" />
                 </FormItem>
               )}
             />
@@ -320,7 +320,7 @@ const AddEditTransferHistoryForm = ({
                         )}
                       </div>
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red-500" />
                   </FormItem>
                 )}
               />
@@ -379,7 +379,7 @@ const AddEditTransferHistoryForm = ({
                         )}
                       </div>
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red-500" />
                   </FormItem>
                 )}
               />
@@ -400,7 +400,7 @@ const AddEditTransferHistoryForm = ({
                       placeholder="Enter Joined Club Name"
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-500" />
                 </FormItem>
               )}
             />
@@ -460,7 +460,7 @@ const AddEditTransferHistoryForm = ({
                         )}
                       </div>
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red-500" />
                   </FormItem>
                 )}
               />
@@ -519,7 +519,7 @@ const AddEditTransferHistoryForm = ({
                         )}
                       </div>
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red-500" />
                   </FormItem>
                 )}
               />

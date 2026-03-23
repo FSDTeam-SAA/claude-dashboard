@@ -17,14 +17,14 @@ export interface Meta {
 export interface AttackingStat {
   _id: string
   player: Player
-  goals: number
-  assists: number
-  shotsNsidePr: number
-  shotsOutsidePa: number
-  totalShots: number
-  shotsOnTarget: number
+  goals: string
+  assists: string
+  shotsNsidePr: string
+  shotsOutsidePa: string
+  totalShots: string
+  shotsOnTarget: string
   shootingAccuracy: string
-  shotsOffTarget: number
+  shotsOffTarget: string
   passesAccuracy: string
   takeOn: string 
   createdAt: string
@@ -62,6 +62,5 @@ export interface Player {
   league: string
   weight: string
 }
-
 
 

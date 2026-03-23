@@ -22,11 +22,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FoulsData } from "@/components/types/fouls-data-type";
 
 type FoulsFormValues = {
-  fouls: number;
-  foulswon: number;
-  redCards: number;
-  yellowCards: number;
-  offside:number;
+  fouls: string;
+  foulswon: string;
+  redCards: string;
+  yellowCards: string;
+  offside: string;
 };
 
 interface Props {
@@ -40,21 +40,11 @@ interface Props {
 // Zod Validation Schema
 // ----------------------
 const foulsSchema = z.object({
-  fouls: z
-    .number({ message: "Fouls must be a number" })
-    .min(0, "Fouls cannot be negative"),
-  foulswon: z
-    .number({ message: "Fouls Won must be a number" })
-    .min(0, "Fouls Won cannot be negative"),
-  redCards: z
-    .number({ message: "Red Card must be a number" })
-    .min(0, "Red Card cannot be negative"),
-  yellowCards: z
-    .number({ message: "Yellow Cards must be a number" })
-    .min(0, "Yellow Cards cannot be negative"),
-    offside: z
-    .number({ message: "Off Side must be a number" })
-    .min(0, "Off Side cannot be negative"),
+  fouls: z.string().min(1, "Fouls is required"),
+  foulswon: z.string().min(1, "Fouls Won is required"),
+  redCards: z.string().min(1, "Red Card is required"),
+  yellowCards: z.string().min(1, "Yellow Cards is required"),
+  offside: z.string().min(1, "Off Side is required"),
 });
 
 const AddEditFoulsForm = ({
@@ -71,11 +61,11 @@ const AddEditFoulsForm = ({
   const form = useForm<FoulsFormValues>({
     resolver: zodResolver(foulsSchema),
     defaultValues: {
-      fouls: undefined,
-      foulswon: undefined,
-      redCards: undefined,
-      yellowCards: undefined,
-      offside: undefined,
+      fouls: "",
+      foulswon: "",
+      redCards: "",
+      yellowCards: "",
+      offside: "",
     },
   });
 
@@ -83,11 +73,11 @@ const AddEditFoulsForm = ({
   useEffect(() => {
     if (defaultData) {
       form.reset({
-        fouls: defaultData.fouls,
-        foulswon: defaultData.foulswon,
-        redCards: defaultData.redCards,
-        yellowCards: defaultData.yellowCards,
-        offside: defaultData.offside,
+        fouls: defaultData.fouls ?? "",
+        foulswon: defaultData.foulswon ?? "",
+        redCards: defaultData.redCards ?? "",
+        yellowCards: defaultData.yellowCards ?? "",
+        offside: defaultData.offside ?? "",
       });
     }
   }, [defaultData, form]);
@@ -150,12 +140,10 @@ const AddEditFoulsForm = ({
                   </FormLabel>
                   <FormControl>
                     <Input
-                      type="number"
-                      {...field}
-                      value={field.value ?? ""}
+                      type="text"
                       placeholder="Enter Fouls"
-                      onChange={(e) => field.onChange(Number(e.target.value))}
                       className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />
@@ -173,12 +161,10 @@ const AddEditFoulsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Fouls won"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -195,12 +181,10 @@ const AddEditFoulsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Red card"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -218,12 +202,10 @@ const AddEditFoulsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Yello Card"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -243,12 +225,10 @@ const AddEditFoulsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter off side"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -280,4 +260,3 @@ const AddEditFoulsForm = ({
 };
 
 export default AddEditFoulsForm;
-

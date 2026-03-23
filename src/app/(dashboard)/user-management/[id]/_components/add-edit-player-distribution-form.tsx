@@ -272,12 +272,12 @@ const AddEditPlayerDistributionForm = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-base font-semibold leading-[120%] text-[#131313]">
-                      Passes in Offensive Third
+                      Passes in the Defensive Third
                     </FormLabel>
                     <FormControl>
                       <Input
                         type="text"
-                        placeholder="Enter Passes in offensive third"
+                        placeholder="Enter Passes in the defensive third"
                         className="h-[44px] w-full rounded-[12px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]"
                         {...field}
                       />

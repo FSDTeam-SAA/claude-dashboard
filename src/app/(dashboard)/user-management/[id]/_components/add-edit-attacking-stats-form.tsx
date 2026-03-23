@@ -22,14 +22,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AttackingStat } from "@/components/types/attacking-stats-data-type";
 
 type AttackingStatsFormValues = {
-  goals: number;
-  assists: number;
-  shotsNsidePr: number;
-  shotsOutsidePa: number;
-  totalShots: number;
-  shotsOnTarget: number;
+  goals: string;
+  assists: string;
+  shotsNsidePr: string;
+  shotsOutsidePa: string;
+  totalShots: string;
+  shotsOnTarget: string;
   shootingAccuracy: string;
-  shotsOffTarget: number;
+  shotsOffTarget: string;
   passesAccuracy: string;
   takeOn: string;
 };
@@ -45,35 +45,21 @@ interface Props {
 // Zod Validation Schema
 // ----------------------
 export const attackingStatsSchema = z.object({
-  goals: z
-    .number({ message: "Goals must be a number" })
-    .min(0, "Goals cannot be negative"),
+  goals: z.string().min(1, "Goals is required"),
 
-  assists: z
-    .number({ message: "Assists must be a number" })
-    .min(0, "Assists cannot be negative"),
+  assists: z.string().min(1, "Assists is required"),
 
-  shotsNsidePr: z
-    .number({ message: "Shots inside penalty area must be a number" })
-    .min(0, "Shots inside penalty area cannot be negative"),
+  shotsNsidePr: z.string().min(1, "Shots inside penalty area is required"),
 
-  shotsOutsidePa: z
-    .number({ message: "Shots outside penalty area must be a number" })
-    .min(0, "Shots outside penalty area cannot be negative"),
+  shotsOutsidePa: z.string().min(1, "Shots outside penalty area is required"),
 
-  totalShots: z
-    .number({ message: "Total shots must be a number" })
-    .min(0, "Total shots cannot be negative"),
+  totalShots: z.string().min(1, "Total shots is required"),
 
-  shotsOnTarget: z
-    .number({ message: "Shots on target must be a number" })
-    .min(0, "Shots on target cannot be negative"),
+  shotsOnTarget: z.string().min(1, "Shots on target is required"),
 
   shootingAccuracy: z.string().min(1, "Shooting Accuracy is required"),
 
-  shotsOffTarget: z
-    .number({ message: "Shots off target must be a number" })
-    .min(0, "Shots off target cannot be negative"),
+  shotsOffTarget: z.string().min(1, "Shots off target is required"),
 
   passesAccuracy: z.string().min(1, "Passes Accuracy is required"),
 
@@ -94,15 +80,15 @@ const AddEditAttackingStatsForm = ({
   const form = useForm<AttackingStatsFormValues>({
     resolver: zodResolver(attackingStatsSchema),
     defaultValues: {
-      goals: undefined,
-      assists: undefined,
+      goals: "",
+      assists: "",
 
-      shotsNsidePr: undefined,
-      shotsOutsidePa: undefined,
-      totalShots: undefined,
+      shotsNsidePr: "",
+      shotsOutsidePa: "",
+      totalShots: "",
 
-      shotsOnTarget: undefined,
-      shotsOffTarget: undefined,
+      shotsOnTarget: "",
+      shotsOffTarget: "",
 
       shootingAccuracy: "",
       passesAccuracy: "",
@@ -115,15 +101,15 @@ const AddEditAttackingStatsForm = ({
   useEffect(() => {
     if (defaultData) {
       form.reset({
-        goals: defaultData?.goals ?? 0,
-        assists: defaultData?.assists ?? 0,
+        goals: defaultData?.goals ?? "",
+        assists: defaultData?.assists ?? "",
 
-        shotsNsidePr: defaultData?.shotsNsidePr ?? 0,
-        shotsOutsidePa: defaultData?.shotsOutsidePa ?? 0,
-        totalShots: defaultData?.totalShots ?? 0,
+        shotsNsidePr: defaultData?.shotsNsidePr ?? "",
+        shotsOutsidePa: defaultData?.shotsOutsidePa ?? "",
+        totalShots: defaultData?.totalShots ?? "",
 
-        shotsOnTarget: defaultData?.shotsOnTarget ?? 0,
-        shotsOffTarget: defaultData?.shotsOffTarget ?? 0,
+        shotsOnTarget: defaultData?.shotsOnTarget ?? "",
+        shotsOffTarget: defaultData?.shotsOffTarget ?? "",
 
         shootingAccuracy: defaultData?.shootingAccuracy ?? "",
         passesAccuracy: defaultData?.passesAccuracy ?? "",
@@ -191,12 +177,10 @@ const AddEditAttackingStatsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Goals"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -214,12 +198,10 @@ const AddEditAttackingStatsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Assists"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -236,12 +218,10 @@ const AddEditAttackingStatsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Shots inside pa"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -259,12 +239,10 @@ const AddEditAttackingStatsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Shots outside pa"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -281,12 +259,10 @@ const AddEditAttackingStatsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Total Shots"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -304,12 +280,10 @@ const AddEditAttackingStatsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter Shots On Target"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -327,12 +301,10 @@ const AddEditAttackingStatsForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        {...field}
-                        value={field.value ?? ""}
+                        type="text"
                         placeholder="Enter off target"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
                         className="h-[44px] w-full rounded-[12px] text-base leading-[120%] text-[#131313] font-medium border border-[#645949]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />

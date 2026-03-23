@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useSession } from 'next-auth/react';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import moment from "moment";
 import {
@@ -20,44 +20,54 @@ import Image from "next/image";
 import { Eye, Trash, SquarePen } from "lucide-react";
 import ClaudePagination from "@/components/ui/claude-pagination";
 import DeleteModal from "@/components/modals/delete-modal";
-import { TransferHistory, TransferHistoryApiResponse } from "@/components/types/transfer-history-data-type";
+import {
+  TransferHistory,
+  TransferHistoryApiResponse,
+} from "@/components/types/transfer-history-data-type";
 import TransferHistoryView from "./transfer-history-view";
 import AddEditTransferHistoryForm from "./add-edit-transfer-history";
 
+import noImage from "../../../../../../public/assets/images/no-image.png"
+
 const TransferHistoryPage = ({ id }: { id?: string }) => {
-  console.log("view data", id)
+  console.log("view data", id);
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [transferHistoryId, setTransferHistoryId] = useState("");
-  const [selectViewTransferHistory, setSelectViewTransferHistory] = useState(false);
+  const [selectViewTransferHistory, setSelectViewTransferHistory] =
+    useState(false);
   const [selectTransferHistory, setSelectTransferHistory] =
     useState<TransferHistory | null>(null);
   const [addTransferHistoryForm, setAddTransferHistoryForm] = useState(false);
   const queryClient = useQueryClient();
-  console.log(queryClient)
+  console.log(queryClient);
   const session = useSession();
   const token = (session?.data?.user as { accessToken: string })?.accessToken;
 
-  const { data, isLoading, isError, error } = useQuery<TransferHistoryApiResponse>({
-    queryKey: ["all-transferhistory", id, currentPage],
-    queryFn: async () => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/transferhistory/${id}?page=${currentPage}&limit=8`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-      );
-      return res.json();
-    },
-    enabled: !!token,
-  });
+  const { data, isLoading, isError, error } =
+    useQuery<TransferHistoryApiResponse>({
+      queryKey: ["all-transferhistory", id, currentPage],
+      queryFn: async () => {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/transferhistory/${id}?page=${currentPage}&limit=8`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        return res.json();
+      },
+      enabled: !!token,
+    });
 
-  console.log(data)
+  console.log(data);
 
-  const totalPages = data?.meta ? Math.ceil(data.meta.total / data.meta.limit) : 0;
+  const totalPages = data?.meta
+    ? Math.ceil(data.meta.total / data.meta.limit)
+    : 0;
 
   let content;
 
@@ -73,21 +83,13 @@ const TransferHistoryPage = ({ id }: { id?: string }) => {
         <ErrorContainer message={error?.message || "Something went wrong"} />
       </div>
     );
-  } else if (
-    data &&
-    data?.data &&
-    data?.data?.length === 0
-  ) {
+  } else if (data && data?.data && data?.data?.length === 0) {
     content = (
       <div>
         <NotFound message="Oops! No data available. Modify your filters or check your internet connection." />
       </div>
     );
-  } else if (
-    data &&
-    data?.data &&
-    data?.data?.length > 0
-  ) {
+  } else if (data && data?.data && data?.data?.length > 0) {
     content = (
       <div>
         <Table className="">
@@ -127,23 +129,36 @@ const TransferHistoryPage = ({ id }: { id?: string }) => {
               return (
                 <TableRow key={index} className="">
                   <TableCell className="w-[267px] text-base font-medium text-[#131313] leading-[150%] pl-6 py-3">
-                    
-  {item?.season || "N/A"}
+                    {item?.season || "N/A"}
                   </TableCell>
                   <TableCell className="text-base font-normal text-[#131313] leading-[150%] text-center py-3">
-                     {moment(item.date).format("MMM DD, YYYY")}
+                    {moment(item.date).format("MMM DD, YYYY")}
                   </TableCell>
                   <TableCell className="text-base font-normal text-[#131313] leading-[150%] text-center py-3">
                     {item?.leftClubName || "N/A"}
                   </TableCell>
                   <TableCell className=" text-base font-normal text-[#131313] leading-[150%] py-3">
                     <div className="flex items-center justify-center">
-                      <Image src={item?.leftClub || "/assets/images/no-image.png"} alt="Profile" width={40} height={40} className="w-16 h-16 rounded-[12px] object-contain" />
+                      <Image
+                        src={item?.leftClub || noImage}
+                        alt="Profile"
+                        width={40}
+                        height={40}
+                        className="w-12 h-12 rounded-[12px] object-contain"
+                      />
                     </div>
                   </TableCell>
                   <TableCell className="text-base font-normal text-[#131313] leading-[150%] py-3">
                     <div className="flex items-center justify-center">
-                      <Image src={item?.leftCountery || "/assets/images/no-image.png"} alt="Profile" width={40} height={40} className="w-16 h-16 rounded-[12px] object-contain" />
+                      <Image
+                        src={
+                          item?.leftCountery || noImage
+                        }
+                        alt="Profile"
+                        width={40}
+                        height={40}
+                        className="w-12 h-12 rounded-[12px] object-contain"
+                      />
                     </div>
                   </TableCell>
                   <TableCell className="text-base font-normal text-[#131313] leading-[150%] text-center py-3">
@@ -151,15 +166,29 @@ const TransferHistoryPage = ({ id }: { id?: string }) => {
                   </TableCell>
                   <TableCell className="text-base font-normal text-[#131313] leading-[150%] text-center py-3">
                     <div className="flex items-center justify-center">
-                      <Image src={item?.joinedClub || "/assets/images/no-image.png"} alt="Profile" width={40} height={40} className="w-16 h-16 rounded-[12px] object-contain" />
+                      <Image
+                        src={item?.joinedClub || noImage}
+                        alt="Profile"
+                        width={40}
+                        height={40}
+                        className="w-12 h-12 rounded-[12px] object-contain"
+                      />
                     </div>
                   </TableCell>
                   <TableCell className=" text-base font-normal text-[#131313] leading-[150%] py-3">
                     <div className="flex items-center justify-center">
-                      <Image src={item?.joinedCountery || "/assets/images/no-image.png"} alt="Profile" width={40} height={40} className="w-16 h-16 rounded-[12px] object-contain" />
+                      <Image
+                        src={
+                          item?.joinedCountery || noImage
+                        }
+                        alt="Profile"
+                        width={40}
+                        height={40}
+                        className="w-12 h-12 rounded-[12px] object-contain"
+                      />
                     </div>
                   </TableCell>
-                  <TableCell >
+                  <TableCell>
                     <div className="h-full w-auto flex items-end justify-center gap-6 py-3">
                       <button
                         onClick={() => {
@@ -181,7 +210,6 @@ const TransferHistoryPage = ({ id }: { id?: string }) => {
                         <SquarePen className="h-6 w-6 text-[#181818]" />
                       </button>
 
-
                       <button
                         onClick={() => {
                           setDeleteModalOpen(true);
@@ -202,8 +230,7 @@ const TransferHistoryPage = ({ id }: { id?: string }) => {
     );
   }
 
-
-  // delete national team player 
+  // delete national team player
   const { mutate } = useMutation({
     mutationKey: ["delete-transferhistory"],
     mutationFn: async (id: string) => {
@@ -215,7 +242,7 @@ const TransferHistoryPage = ({ id }: { id?: string }) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
       return res.json();
     },
@@ -237,36 +264,38 @@ const TransferHistoryPage = ({ id }: { id?: string }) => {
   };
   return (
     <div>
-      <div className='pt-2'>
+      <div className="pt-2">
         <div className="w-full flex items-center justify-between">
-
-          <h3 className='text-2xl md:text-3xl  text-[#131313] font-semibold leading-[120%]'>Transfer History</h3>
-          <button onClick={() => {
-            setSelectTransferHistory(null);
-            setAddTransferHistoryForm(true);
-          }} className="bg-primary text-white py-3 px-4 rounded-[12px] text-base leading-normal font-semibold">Add Transfer History</button>
+          <h3 className="text-2xl md:text-3xl  text-[#131313] font-semibold leading-[120%]">
+            Transfer History
+          </h3>
+          <button
+            onClick={() => {
+              setSelectTransferHistory(null);
+              setAddTransferHistoryForm(true);
+            }}
+            className="bg-primary text-white py-3 px-4 rounded-[12px] text-base leading-normal font-semibold"
+          >
+            Add Transfer History
+          </button>
         </div>
 
-        <div className="pt-6">
-          {content}
-        </div>
+        <div className="pt-6">{content}</div>
         {/* pagination  */}
-        {
-          totalPages > 1 && (
-            <div className="w-full flex items-center justify-between py-6">
-              <p className="text-base font-normal text-[#68706A] leading-[150%]">
-                Showing {currentPage} to 8 of {data?.meta?.total} results
-              </p>
-              <div>
-                <ClaudePagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={(page) => setCurrentPage(page)}
-                />
-              </div>
+        {totalPages > 1 && (
+          <div className="w-full flex items-center justify-between py-6">
+            <p className="text-base font-normal text-[#68706A] leading-[150%]">
+              Showing {currentPage} to 8 of {data?.meta?.total} results
+            </p>
+            <div>
+              <ClaudePagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={(page) => setCurrentPage(page)}
+              />
             </div>
-          )
-        }
+          </div>
+        )}
 
         {/* delete modal  */}
         {deleteModalOpen && (
@@ -284,7 +313,9 @@ const TransferHistoryPage = ({ id }: { id?: string }) => {
           {selectViewTransferHistory && (
             <TransferHistoryView
               open={selectViewTransferHistory}
-              onOpenChange={(open: boolean) => setSelectViewTransferHistory(open)}
+              onOpenChange={(open: boolean) =>
+                setSelectViewTransferHistory(open)
+              }
               transferHistory={selectTransferHistory}
             />
           )}
@@ -293,38 +324,18 @@ const TransferHistoryPage = ({ id }: { id?: string }) => {
         {/* add national team career form  */}
 
         <div>
-          {
-            addTransferHistoryForm && (
-              <AddEditTransferHistoryForm
-                open={addTransferHistoryForm}
-                onOpenChange={(open: boolean) => setAddTransferHistoryForm(open)}
-                defaultData={selectTransferHistory}
-                playerId={id}
-              />
-            )
-          }
+          {addTransferHistoryForm && (
+            <AddEditTransferHistoryForm
+              open={addTransferHistoryForm}
+              onOpenChange={(open: boolean) => setAddTransferHistoryForm(open)}
+              defaultData={selectTransferHistory}
+              playerId={id}
+            />
+          )}
         </div>
-
-
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default TransferHistoryPage
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export default TransferHistoryPage;
