@@ -27,7 +27,7 @@ import {
 import TransferHistoryView from "./transfer-history-view";
 import AddEditTransferHistoryForm from "./add-edit-transfer-history";
 
-import noImage from "../../../../../../public/assets/images/no-image.png"
+import noImage from "../../../../../../public/assets/images/no-image.png";
 
 const TransferHistoryPage = ({ id }: { id?: string }) => {
   console.log("view data", id);
@@ -132,7 +132,10 @@ const TransferHistoryPage = ({ id }: { id?: string }) => {
                     {item?.season || "N/A"}
                   </TableCell>
                   <TableCell className="text-base font-normal text-[#131313] leading-[150%] text-center py-3">
-                    {moment(item.date).format("MMM DD, YYYY")}
+                    {/* {moment(item.date).format("MMM DD, YYYY") || "N/A"} */}
+                    {item.date && moment(item.date).isValid()
+                      ? moment(item.date).format("MMM DD, YYYY")
+                      : "N/A"}
                   </TableCell>
                   <TableCell className="text-base font-normal text-[#131313] leading-[150%] text-center py-3">
                     {item?.leftClubName || "N/A"}
@@ -151,9 +154,7 @@ const TransferHistoryPage = ({ id }: { id?: string }) => {
                   <TableCell className="text-base font-normal text-[#131313] leading-[150%] py-3">
                     <div className="flex items-center justify-center">
                       <Image
-                        src={
-                          item?.leftCountery || noImage
-                        }
+                        src={item?.leftCountery || noImage}
                         alt="Profile"
                         width={40}
                         height={40}
@@ -178,9 +179,7 @@ const TransferHistoryPage = ({ id }: { id?: string }) => {
                   <TableCell className=" text-base font-normal text-[#131313] leading-[150%] py-3">
                     <div className="flex items-center justify-center">
                       <Image
-                        src={
-                          item?.joinedCountery || noImage
-                        }
+                        src={item?.joinedCountery || noImage}
                         alt="Profile"
                         width={40}
                         height={40}
