@@ -6,7 +6,8 @@ import {
   Mail,
   Users,
   CircleDollarSign,
-  CreditCard
+  CreditCard,
+  MessageCircle
 } from "lucide-react";
 
 import {
@@ -43,6 +44,11 @@ const items = [
     url: "/contact-management",
     icon: Mail  ,
   },
+    {
+    title: "Newsletter Management",
+    url: "/newsletter-management",
+    icon: MessageCircle  ,
+  },
   {
     title: "Pricing & Payment",
     url: "/pricing-and-payment",
@@ -65,7 +71,7 @@ export function DashboardSidebar() {
   const pathName = usePathname();
 
   return (
-    <Sidebar className="border-none w-[320px]">
+    <Sidebar className="border-none w-[330px]">
       <SidebarContent className="bg-white scrollbar-hide">
         <SidebarGroup className="p-0">
           <div className="flex flex-col justify-between min-h-screen pb-5">
