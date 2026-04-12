@@ -22,7 +22,7 @@ import { toast } from "sonner";
 import { Newsletter, NewsletterApiResponse } from "./newsletter-data-type";
 import NewsletterManagementView from "./newsletter-management-view";
 
-const ContactManagementContainer = () => {
+const NewsletterManagementContainer = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectViewContact, setSelectViewContact] = useState(false);
@@ -216,4 +216,4 @@ const ContactManagementContainer = () => {
   );
 };
 
-export default ContactManagementContainer;
+export default NewsletterManagementContainer;
