@@ -12,15 +12,15 @@ import {
 import DeleteModal from "@/components/modals/delete-modal";
 import ClaudePagination from "@/components/ui/claude-pagination";
 import { Trash, Eye } from "lucide-react";
-import ContactManagementView from "./contact-management-view";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { ContactApiResponse, ContactItem } from "./contact-data-type";
 import { useSession } from "next-auth/react";
 import moment from "moment";
 import TableSkeletonWrapper from "@/components/shared/TableSkeletonWrapper/TableSkeletonWrapper";
 import ErrorContainer from "@/components/shared/ErrorContainer/ErrorContainer";
 import NotFound from "@/components/shared/NotFound/NotFound";
 import { toast } from "sonner";
+import { Newsletter, NewsletterApiResponse } from "./newsletter-data-type";
+import NewsletterManagementView from "./newsletter-management-view";
 
 const ContactManagementContainer = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -28,16 +28,16 @@ const ContactManagementContainer = () => {
   const [selectViewContact, setSelectViewContact] = useState(false);
   const session = useSession();
   const token = (session?.data?.user as { accessToken: string })?.accessToken;
-  const [selectedContact, setSelectedContact] = useState<ContactItem | null>(null);
+  const [selectedContact, setSelectedContact] = useState<Newsletter | null>(null);
   const [selectedContactId, setSelectedContactId] = useState("");
   const queryClient = useQueryClient();
 
 
 
-  const { data, isLoading, error, isError } = useQuery<ContactApiResponse>({
-    queryKey: ["contact-management", currentPage],
+  const { data, isLoading, error, isError } = useQuery<NewsletterApiResponse>({
+    queryKey: ["newsletter-management", currentPage],
     queryFn: async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/contact?page=${currentPage}&limit=8`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/newsletter?page=${currentPage}&limit=8`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`
@@ -87,15 +87,6 @@ const ContactManagementContainer = () => {
                 Email Address
               </TableHead>
               <TableHead className="text-sm font-normal leading-[150%] text-[#343A40] text-center py-4 ">
-                Name
-              </TableHead>
-              <TableHead className="text-sm font-normal leading-[150%] text-[#343A40] text-center py-4 ">
-                Phone Number
-              </TableHead>
-              <TableHead className="text-sm font-normal leading-[150%] text-[#343A40] text-center py-4 ">
-                Message
-              </TableHead>
-              <TableHead className="text-sm font-normal leading-[150%] text-[#343A40] text-center py-4 ">
                 Date
               </TableHead>
               <TableHead className="text-sm font-normal leading-[150%] text-[#343A40] text-center py-4">
@@ -109,15 +100,6 @@ const ContactManagementContainer = () => {
                 <TableRow key={index} className="">
                   <TableCell className="text-base font-medium text-[#68706A] leading-[150%] pl-6 py-4">
                     {item?.email}
-                  </TableCell>
-                  <TableCell className="text-base font-normal text-[#68706A] leading-[150%] text-center py-4">
-                    {item?.fullName}
-                  </TableCell>
-                  <TableCell className="text-base font-normal text-[#68706A] leading-[150%] text-center py-4">
-                    {item?.phone}
-                  </TableCell>
-                  <TableCell className="w-[395px] text-base font-normal text-[#68706A] leading-[150%] text-center py-4">
-                    {item?.message}
                   </TableCell>
                   <TableCell className="text-base font-medium text-[#343A40] leading-[150%] text-center py-4">
                     {moment(item?.createdAt).format("MMM DD YYYY")}
@@ -150,12 +132,12 @@ const ContactManagementContainer = () => {
     )
   }
 
-    // delete contact api
+    // delete newsletter api
   const { mutate } = useMutation({
-    mutationKey: ["delete-contact"],
+    mutationKey: ["delete-newsletter"],
     mutationFn: async (id: string) => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/contact/${id}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/newsletter/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -172,7 +154,7 @@ const ContactManagementContainer = () => {
         return;
       }
       toast.success(data?.message || "Contact deleted successfully");
-      queryClient.invalidateQueries({ queryKey: ["contact-management"] });
+      queryClient.invalidateQueries({ queryKey: ["newsletter-management"] });
     },
   });
 
@@ -215,14 +197,14 @@ const ContactManagementContainer = () => {
             onClose={() => setDeleteModalOpen(false)}
             onConfirm={handleDelete}
             title="Are You Sure?"
-            desc="Are you sure you want to delete this Contact?"
+            desc="Are you sure you want to delete this newsletter?"
           />
         )}
 
-        {/* contact view modal  */}
+        {/* newsletter view modal  */}
         <div>
           {selectViewContact && (
-            <ContactManagementView
+            <NewsletterManagementView
               open={selectViewContact}
               onOpenChange={(open: boolean) => setSelectViewContact(open)}
               contactData={selectedContact}
