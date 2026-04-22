@@ -1,5 +1,18 @@
-export interface UserInfo {
-  _id: string;
+
+export type GuestManagementApiResponse = {
+  statusCode: number;
+  success: boolean;
+  message: string;
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+  };
+  data: GuestManagement[];
+};
+
+export type GuestManagement = {
+   _id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -39,18 +52,5 @@ export interface UserInfo {
   phoneCode?: string;
   satAct?: string;
   weight?: number;
-}
+};
 
-export interface Meta {
-  total: number;
-  page: number;
-  limit: number;
-}
-
-export interface UserManagementApiResponse {
-  statusCode: number;
-  success: boolean;
-  message: string;
-  meta: Meta;
-  data: UserInfo;
-}

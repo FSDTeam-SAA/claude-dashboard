@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table";
 import DeleteModal from "@/components/modals/delete-modal";
 import ClaudePagination from "@/components/ui/claude-pagination";
-import { Trash, Eye } from "lucide-react";
+import { Trash } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import moment from "moment";
@@ -19,15 +19,16 @@ import TableSkeletonWrapper from "@/components/shared/TableSkeletonWrapper/Table
 import ErrorContainer from "@/components/shared/ErrorContainer/ErrorContainer";
 import NotFound from "@/components/shared/NotFound/NotFound";
 import { toast } from "sonner";
-// import { UserManagementApiResponse } from "./user-management-data-type";
 import Image from "next/image"
 
-import Link from 'next/link';
-import { UserManagementApiResponse } from "../../_components/user-data-type";
+// import Link from 'next/link';
+import { GuestManagementApiResponse } from "./guest-management-data-type";
 
 import NoUser from "../../../../../public/assets/images/no-user.jpeg"
 
-const UserManagementContainer = () => {
+
+
+const GuestManagementContainer = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const session = useSession();
@@ -39,10 +40,10 @@ const UserManagementContainer = () => {
 
 
 
-  const { data, isLoading, error, isError } = useQuery<UserManagementApiResponse>({
+  const { data, isLoading, error, isError } = useQuery<GuestManagementApiResponse>({
     queryKey: ["user-management", currentPage],
     queryFn: async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/all-user?page=${currentPage}&limit=8`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/all-guest?page=${currentPage}&limit=8`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`
@@ -159,13 +160,13 @@ const UserManagementContainer = () => {
                   {moment(item?.createdAt).format("MMM DD YYYY")}
                 </TableCell>
                 <TableCell className="h-full flex items-center justify-center gap-6 py-4">
-                  <Link href={`/user-management/${item?._id}`}>
+                  {/* <Link href={`/user-management/${item?._id}`}>
                     <button
                       className="cursor-pointer mt-2 "
                     >
                       <Eye className="h-6 w-6" />
                     </button>
-                  </Link>
+                  </Link> */}
                   <button
                     onClick={() => {
                       setDeleteModalOpen(true);
@@ -251,7 +252,7 @@ const UserManagementContainer = () => {
             onClose={() => setDeleteModalOpen(false)}
             onConfirm={handleDelete}
             title="Are You Sure?"
-            desc="Are you sure you want to delete this player?"
+            desc="Are you sure you want to delete this guest?"
           />
         )}
       </div>
@@ -259,4 +260,4 @@ const UserManagementContainer = () => {
   );
 };
 
-export default UserManagementContainer;
+export default GuestManagementContainer;

@@ -40,6 +40,11 @@ const items = [
     icon: Users,
   },
   {
+    title: "Guest Management",
+    url: "/guest-management",
+    icon: Users,
+  },
+  {
     title: "Contact Management",
     url: "/contact-management",
     icon: Mail  ,
