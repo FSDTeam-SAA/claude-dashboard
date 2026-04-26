@@ -1,21 +1,29 @@
-export type Newsletter = {
+// Single Coupon Type
+export type Coupon = {
   _id: string;
-  email: string;
-  createdAt: string; // ISO date string
-  updatedAt: string; // ISO date string
+  code: string;
+  discountType: "percent" | "fixed" | string;
+  discountValue: number;
+  maxUses: number;
+  usedCount: number;
+  expiryDate: string;
+  appliesTo: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
   __v: number;
 };
 
-export type NewsletterMeta = {
+export type Meta = {
+  total: number;
   page: number;
   limit: number;
-  total: number;
 };
 
-export type NewsletterApiResponse = {
+export type CouponApiResponse = {
   statusCode: number;
   success: boolean;
   message: string;
-  meta: NewsletterMeta;
-  data: Newsletter[];
+  meta: Meta;
+  data: Coupon[];
 };
