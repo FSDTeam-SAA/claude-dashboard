@@ -6,8 +6,8 @@ import {
   Mail,
   Users,
   CircleDollarSign,
-  CreditCard,
-  MessageCircle
+  // CreditCard,
+  MessageCircle,
 } from "lucide-react";
 
 import {
@@ -26,7 +26,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 
-import logo from "../../../../public/assets/images/logo.jpg"
+import logo from "../../../../public/assets/images/logo.jpg";
 
 const items = [
   {
@@ -47,29 +47,36 @@ const items = [
   {
     title: "Contact Management",
     url: "/contact-management",
-    icon: Mail  ,
-  },
-    {
-    title: "Newsletter Management",
-    url: "/newsletter-management",
-    icon: MessageCircle  ,
+    icon: Mail,
   },
   {
-    title: "Pricing & Payment",
-    url: "/pricing-and-payment",
-    icon: CreditCard ,
+    title: "Newsletter Management",
+    url: "/newsletter-management",
+    icon: MessageCircle,
   },
-   {
+    {
+    title: "Coupon Management",
+    url: "/coupon-management",
+    icon: MessageCircle,
+  },
+
+
+
+  // {
+  //   title: "Pricing & Payment",
+  //   url: "/pricing-and-payment",
+  //   icon: CreditCard ,
+  // },
+  {
     title: "Revenue",
     url: "/revenue",
-    icon: CircleDollarSign ,
+    icon: CircleDollarSign,
   },
   {
     title: "Settings",
     url: "/settings",
     icon: Settings,
   },
-
 ];
 
 export function DashboardSidebar() {
@@ -124,7 +131,10 @@ export function DashboardSidebar() {
 
             <div>
               <SidebarFooter className="border-t border-gray-300">
-                <button onClick={()=>signOut({callbackUrl:"/login"})} className="font-medium text-red-500 flex items-center gap-2 pl-2 mt-5">
+                <button
+                  onClick={() => signOut({ callbackUrl: "/login" })}
+                  className="font-medium text-red-500 flex items-center gap-2 pl-2 mt-5"
+                >
                   <LogOut className="h-4 w-4" /> Log out
                 </button>
               </SidebarFooter>

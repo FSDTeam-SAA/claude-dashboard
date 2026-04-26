@@ -5,13 +5,14 @@ import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
-// import { UserManagementApiResponse } from "../user-management/_components/user-management-data-type";
 import TableSkeletonWrapper from "@/components/shared/TableSkeletonWrapper/TableSkeletonWrapper";
 import ErrorContainer from "@/components/shared/ErrorContainer/ErrorContainer";
 import NotFound from "@/components/shared/NotFound/NotFound";
 import moment from "moment";
 import Image from "next/image"
 import { UserManagementApiResponse } from "./user-data-type";
+
+import NoUser from "../../../../public/assets/images/no-user.jpeg"
 
 const UserRegistration = () => {
 
@@ -72,11 +73,11 @@ const UserRegistration = () => {
           return (
             <div
               key={item?._id}
-              className="w-full flex items-center justify-between border-b border-[#E6E6E8] p-6"
+              className="w-full flex items-center justify-between border-b border-[#E6E6E8] py-6 "
             >
-              <div className='w-[220px] flex items-center gap-2'>
+              <div className='w-[270px] flex items-center gap-2'>
                 <div>
-                  <Image src={item?.profileImage || "/assets/images/no-user.jpeg"} alt="Profile" width={100} height={100}  className="w-10 h-10 rounded-full object-cover" />
+                  <Image src={item?.profileImage || NoUser} alt="Profile" width={100} height={100}  className="w-10 h-10 rounded-full object-cover" />
                 </div>
                 <div>
                   <h4 className="text-base font-semibold leading-[150%] text-[#181818]">

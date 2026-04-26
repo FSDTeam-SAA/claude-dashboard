@@ -20,6 +20,8 @@ import ErrorContainer from "@/components/shared/ErrorContainer/ErrorContainer";
 import NotFound from "@/components/shared/NotFound/NotFound";
 import { toast } from "sonner";
 import { GetRevenueApiResponse } from "./revenue-data-type";
+import Image from "next/image";
+import NoUser from "../../../../../public/assets/images/no-user.jpeg"
 
 const RevenueContainer = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -90,6 +92,9 @@ const RevenueContainer = () => {
               Price
             </TableHead>
             <TableHead className="text-sm font-normal leading-[150%] text-[#343A40] text-center py-4 ">
+              Payment Type
+            </TableHead>
+            <TableHead className="text-sm font-normal leading-[150%] text-[#343A40] text-center py-4 ">
               Date
             </TableHead>
             <TableHead className="text-sm font-normal leading-[150%] text-[#343A40] text-center py-4">
@@ -101,9 +106,12 @@ const RevenueContainer = () => {
           {data?.data?.data?.map((item, index) => {
             return (
               <TableRow key={index} className="">
-                <TableCell className="text-base font-medium text-[#68706A] leading-[150%] pl-6 py-4">
-                  {/* {item?.user?.name || item?.team?.teamName} */}
-                  {item?.user?.name && (
+                <TableCell className="flex items-center gap-2 pl-6 py-4">
+                   <div>
+                  <Image src={item?.user?.profileImage || NoUser} alt="Profile" width={100} height={100}  className="w-10 h-10 rounded-full object-cover" />
+                </div>
+                  <div className="text-base font-medium text-[#68706A] leading-[150%]">
+                    {item?.user?.name && (
                     <span>{item.user.name}</span>
                   )}
                   {item?.team?.teamName && (
@@ -111,9 +119,13 @@ const RevenueContainer = () => {
                       {item.team.teamName}
                     </span>
                   )}
+                  </div>
                 </TableCell>
                 <TableCell className="text-base font-normal text-[#68706A] leading-[150%] text-center py-4">
                   {item?.amount || "N/A"}
+                </TableCell>
+                 <TableCell className="text-base font-normal text-[#68706A] leading-[150%] text-center py-4">
+                  {item?.paymentType || "N/A"}
                 </TableCell>
                 <TableCell className="text-base font-medium text-[#343A40] leading-[150%] text-center py-4">
                   {moment(item?.createdAt).format("MMM DD YYYY")}
