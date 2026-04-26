@@ -12,6 +12,7 @@ import moment from "moment";
 import Image from "next/image"
 import { PricingAndPaymentApiResponse } from "./pricing-and-payment-data-type";
 // import { MapPin } from "lucide-react";
+import NoUser from "../../../../public/assets/images/no-user.jpeg"
 
 const PricingAndPayment = () => {
 
@@ -72,11 +73,11 @@ const PricingAndPayment = () => {
           return (
             <div
               key={item?._id}
-              className="w-full flex items-center justify-between border-b border-[#E6E6E8] p-6"
+              className="w-full flex items-center justify-between border-b border-[#E6E6E8] py-6"
             >
               <div className='w-[230px] flex items-center gap-2'>
                 <div>
-                  <Image src={item?.user?.profileImage || "/assets/images/no-user.jpeg"} alt="Profile" width={100} height={100} unoptimized  className="w-10 h-10 rounded-full object-cover" />
+                  <Image src={item?.user?.profileImage || NoUser} alt="Profile" width={100} height={100} unoptimized  className="w-10 h-10 rounded-full object-cover" />
                 </div>
                 <div>
 
@@ -133,7 +134,7 @@ const PricingAndPayment = () => {
           <h4 className="text-xl font-semibold leading-[150%] text-[#343A40]">
             Pricing & Payment
           </h4>
-          <Link href="/pricing-and-payment">
+          <Link href="/revenue">
             <button className="text-sm font-medium leading-[150%] text-primary cursor-pointer hover:underline">
               View All
             </button>

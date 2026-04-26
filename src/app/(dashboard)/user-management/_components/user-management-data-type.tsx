@@ -4,7 +4,7 @@ export interface UserInfo {
   lastName: string;
   email: string;
   password: string;
-  role: "admin" | "player" | "gk" | "guest";
+  role: "admin" | "player" | "gk" | "guest" | "coach";
   // role: string;
   profileImage: string;
   verified: boolean;
