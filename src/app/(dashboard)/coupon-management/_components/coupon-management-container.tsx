@@ -96,6 +96,10 @@ const CouponManagementContainer = () => {
                 Uses
               </TableHead>
               <TableHead className="text-sm font-normal leading-[150%] text-[#343A40] text-center py-4">
+               Applies To
+              </TableHead>
+
+              <TableHead className="text-sm font-normal leading-[150%] text-[#343A40] text-center py-4">
                 Expiry Date
               </TableHead>
               <TableHead className="text-sm font-normal leading-[150%] text-[#343A40] text-center py-4">
@@ -120,6 +124,9 @@ const CouponManagementContainer = () => {
                 </TableCell>
                 <TableCell className="text-base font-medium text-[#343A40] leading-[150%] text-center py-4">
                   {item?.usedCount}/{item?.maxUses}
+                </TableCell>
+                   <TableCell className="text-base font-medium text-[#343A40] leading-[150%] text-center py-4">
+                  {item?.appliesTo}
                 </TableCell>
                 <TableCell className="text-base font-medium text-[#343A40] leading-[150%] text-center py-4">
                   {moment(item?.expiryDate).format("MMM DD YYYY")}
