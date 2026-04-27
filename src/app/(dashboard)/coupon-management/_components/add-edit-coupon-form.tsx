@@ -182,9 +182,9 @@ const AddEditCouponForm = ({
                   : "Set up a coupon fast with clear limits and expiry."}
               </p>
             </div>
-            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-white/20 text-white border border-white/30">
+            {/* <span className="px-3 py-1 rounded-full text-xs font-semibold bg-white/20 text-white border border-white/30">
               Type : {systemDiscountType === "fixed" ? "Fixed" : "Percent"}
-            </span>
+            </span> */}
           </div>
         </div>
 
@@ -254,7 +254,7 @@ const AddEditCouponForm = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm font-medium text-[#2A2E2A]">
-                        Max Uses
+                        Max User
                       </FormLabel>
                       <FormControl>
                         <Input
