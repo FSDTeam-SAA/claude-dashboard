@@ -93,7 +93,7 @@ const CouponManagementContainer = () => {
                 Discount
               </TableHead>
               <TableHead className="text-sm font-normal leading-[150%] text-[#343A40] text-center py-4">
-                Uses
+                User
               </TableHead>
               <TableHead className="text-sm font-normal leading-[150%] text-[#343A40] text-center py-4">
                Applies To
