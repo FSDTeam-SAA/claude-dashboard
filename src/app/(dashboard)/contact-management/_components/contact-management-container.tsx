@@ -116,8 +116,8 @@ const ContactManagementContainer = () => {
                   <TableCell className="text-base font-normal text-[#68706A] leading-[150%] text-center py-4">
                     {item?.phone}
                   </TableCell>
-                  <TableCell className="w-[395px] text-base font-normal text-[#68706A] leading-[150%] text-center py-4">
-                    {item?.message}
+                  <TableCell className="w-[400px] text-base font-normal text-[#68706A] leading-[150%] text-center py-4 line-clamp-1">
+                   <p className="truncate"> {item?.message}</p>
                   </TableCell>
                   <TableCell className="text-base font-medium text-[#343A40] leading-[150%] text-center py-4">
                     {moment(item?.createdAt).format("MMM DD YYYY")}
