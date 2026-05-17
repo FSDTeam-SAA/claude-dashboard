@@ -8,6 +8,7 @@ import {
   CircleDollarSign,
   // CreditCard,
   MessageCircle,
+  TicketPercent,
 } from "lucide-react";
 
 import {
@@ -57,7 +58,7 @@ const items = [
     {
     title: "Coupon Management",
     url: "/coupon-management",
-    icon: MessageCircle,
+    icon: TicketPercent ,
   },
 
 
