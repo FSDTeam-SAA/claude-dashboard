@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import {
   Table,
@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table";
 import DeleteModal from "@/components/modals/delete-modal";
 import ClaudePagination from "@/components/ui/claude-pagination";
-import { Trash, Eye } from "lucide-react";
+import { Trash, Eye, Search, ChevronDown } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import moment from "moment";
@@ -35,14 +35,60 @@ const UserManagementContainer = () => {
   const [selectedUserId, setSelectedUserId] = useState("");
   const queryClient = useQueryClient();
 
+  // Search & Filter states
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [selectedRole, setSelectedRole] = useState("");
+  const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
 
+  const roles = [
+    { label: "All Roles", value: "" },
+    { label: "Player", value: "player" },
+    { label: "Goalkeeper", value: "gk" },
+  ];
 
+  // Debounce search input (500ms)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchTerm);
+      setCurrentPage(1);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
 
+  // Reset page when role changes
+  const handleRoleChange = useCallback((role: string) => {
+    setSelectedRole(role);
+    setCurrentPage(1);
+    setIsRoleDropdownOpen(false);
+  }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest("#role-dropdown-wrapper")) {
+        setIsRoleDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Build query params
+  const buildQueryParams = () => {
+    const params = new URLSearchParams();
+    params.set("page", String(currentPage));
+    params.set("limit", "8");
+    if (debouncedSearch) params.set("searchTerm", debouncedSearch);
+    if (selectedRole) params.set("role", selectedRole);
+    return params.toString();
+  };
 
   const { data, isLoading, error, isError } = useQuery<UserManagementApiResponse>({
-    queryKey: ["user-management", currentPage],
+    queryKey: ["user-management", currentPage, debouncedSearch, selectedRole],
     queryFn: async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/all-user?page=${currentPage}&limit=8`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/all-user?${buildQueryParams()}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`
@@ -218,13 +264,51 @@ const UserManagementContainer = () => {
   };
   return (
     <div className="">
-      {/* table container */}
       <div className="p-6 space-y-6">
 
-        {/* table  */}
+        {/* Search & Filter Bar */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+          <div className="relative w-full sm:w-[350px]">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[#9CA3AF]" />
+            <input
+              type="search"
+              placeholder="Search by name or email..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-2.5 border border-[#E6E7E6] rounded-[8px] text-sm text-[#343A40] placeholder:text-[#9CA3AF] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
+            />
+          </div>
+
+          <div className="relative" id="role-dropdown-wrapper">
+            <button
+              onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
+              className="flex items-center gap-2 px-4 py-2.5 border border-[#E6E7E6] rounded-[8px] text-sm text-[#343A40] bg-white hover:border-primary transition-colors min-w-[160px] justify-between"
+            >
+              <span>{roles.find((r) => r.value === selectedRole)?.label || "All Roles"}</span>
+              <ChevronDown className={`h-4 w-4 text-[#9CA3AF] transition-transform ${isRoleDropdownOpen ? "rotate-180" : ""}`} />
+            </button>
+            {isRoleDropdownOpen && (
+              <div className="absolute top-full left-0 mt-1 w-full bg-white border border-[#E6E7E6] rounded-[8px] shadow-lg z-10 overflow-hidden">
+                {roles.map((role) => (
+                  <button
+                    key={role.value}
+                    onClick={() => handleRoleChange(role.value)}
+                    className={`w-full text-left px-4 py-2.5 text-sm hover:bg-[#E6F4E6] transition-colors ${
+                      selectedRole === role.value
+                        ? "bg-[#E6F4E6] text-primary font-medium"
+                        : "text-[#343A40]"
+                    }`}
+                  >
+                    {role.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
         <div className="">{content}</div>
 
-        {/* pagination  */}
         {
           totalPages > 1 && (
             <div className="w-full flex items-center justify-between py-6">

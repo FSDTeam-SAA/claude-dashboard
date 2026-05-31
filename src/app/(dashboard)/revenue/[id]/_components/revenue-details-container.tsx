@@ -72,7 +72,7 @@ const RevenueDetailsContainer = ({ id }: { id: string }) => {
       queryKey: ["revenue-detail", id],
       queryFn: async () => {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/dashboard/total-revenue/${id}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/payment/${id}`,
           {
             method: "GET",
             headers: {
@@ -137,7 +137,7 @@ const RevenueDetailsContainer = ({ id }: { id: string }) => {
           />
           <div>
             <h2 className="text-xl font-bold text-[#343A40] leading-[150%]">
-              {payment?.user?.name || "N/A"}
+              {payment?.user?.firstName && payment?.user?.lastName ? `${payment.user.firstName} ${payment.user.lastName}` : "N/A"}
             </h2>
             <p className="text-sm font-normal text-[#68706A] leading-[150%]">
               {payment?.user?.email || "N/A"}
@@ -312,7 +312,9 @@ const RevenueDetailsContainer = ({ id }: { id: string }) => {
         )}
 
         {/* Stripe Details */}
-        <div className="p-6 border-t border-[#E6E7E6]">
+
+
+        {/* <div className="p-6 border-t border-[#E6E7E6]">
           <h3 className="text-lg font-semibold text-[#343A40] leading-[150%] mb-4">
             Stripe Details
           </h3>
@@ -341,7 +343,9 @@ const RevenueDetailsContainer = ({ id }: { id: string }) => {
               </>
             )}
           </div>
-        </div>
+        </div> */}
+
+
       </div>
     </div>
   );
