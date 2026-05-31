@@ -52,5 +52,6 @@ export type GuestManagement = {
   phoneCode?: string;
   satAct?: string;
   weight?: number;
+  provider?: string;
 };
 
