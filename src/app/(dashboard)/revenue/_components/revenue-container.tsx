@@ -9,27 +9,28 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import DeleteModal from "@/components/modals/delete-modal";
+// import DeleteModal from "@/components/modals/delete-modal";
 import ClaudePagination from "@/components/ui/claude-pagination";
-import { Trash } from "lucide-react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Eye } from "lucide-react";
+import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import moment from "moment";
 import TableSkeletonWrapper from "@/components/shared/TableSkeletonWrapper/TableSkeletonWrapper";
 import ErrorContainer from "@/components/shared/ErrorContainer/ErrorContainer";
 import NotFound from "@/components/shared/NotFound/NotFound";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import { GetRevenueApiResponse } from "./revenue-data-type";
 import Image from "next/image";
 import NoUser from "../../../../../public/assets/images/no-user.jpeg"
 
 const RevenueContainer = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  // const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const session = useSession();
   const token = (session?.data?.user as { accessToken: string })?.accessToken;
-  const [selectedContactId, setSelectedContactId] = useState("");
-  const queryClient = useQueryClient();
+  // const [selectedContactId, setSelectedContactId] = useState("");
+  // const queryClient = useQueryClient();
 
 
 
@@ -131,7 +132,12 @@ const RevenueContainer = () => {
                   {moment(item?.createdAt).format("MMM DD YYYY")}
                 </TableCell>
                 <TableCell className="h-full flex items-center justify-center gap-6 py-4">
-                  <button
+                  <Link href={`/revenue/${item?.paymentId}`}>
+                    <button className="cursor-pointer mt-2">
+                      <Eye className="h-6 w-6 text-[#68706A] hover:text-primary transition-colors" />
+                    </button>
+                  </Link>
+                  {/* <button
                     onClick={() => {
                       setDeleteModalOpen(true);
                       setSelectedContactId(item?.paymentId)
@@ -139,7 +145,7 @@ const RevenueContainer = () => {
                     className="cursor-pointer mt-2"
                   >
                     <Trash className="h-6 w-6 text-red-500" />
-                  </button>
+                  </button> */}
                 </TableCell>
               </TableRow>
             );
@@ -150,37 +156,39 @@ const RevenueContainer = () => {
   }
 
   // delete contact api
-  const { mutate } = useMutation({
-    mutationKey: ["delete-revenue"],
-    mutationFn: async (id: string) => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/dashboard/delete-player-account/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      return res.json();
-    },
-    onSuccess: (data) => {
-      if (!data?.success) {
-        toast.error(data?.message || "Something went wrong");
-        return;
-      }
-      toast.success(data?.message || "Revenue deleted successfully");
-      queryClient.invalidateQueries({ queryKey: ["all-revenue"] });
-    },
-  });
+  // const { mutate } = useMutation({
+  //   mutationKey: ["delete-revenue"],
+  //   mutationFn: async (id: string) => {
+  //     const res = await fetch(
+  //       `${process.env.NEXT_PUBLIC_BACKEND_URL}/dashboard/delete-player-account/${id}`,
+  //       {
+  //         method: "DELETE",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+  //     return res.json();
+  //   },
+  //   onSuccess: (data) => {
+  //     if (!data?.success) {
+  //       toast.error(data?.message || "Something went wrong");
+  //       return;
+  //     }
+  //     toast.success(data?.message || "Revenue deleted successfully");
+  //     queryClient.invalidateQueries({ queryKey: ["all-revenue"] });
+  //   },
+  // });
 
-  const handleDelete = () => {
-    if (selectedContactId) {
-      mutate(selectedContactId);
-    }
-    setDeleteModalOpen(false);
-  };
+  // const handleDelete = () => {
+  //   if (selectedContactId) {
+  //     mutate(selectedContactId);
+  //   }
+  //   setDeleteModalOpen(false);
+  // };
+
+
   return (
     <div className="p-6 ">
       <div className="pt-12 pb-16">
@@ -213,7 +221,7 @@ const RevenueContainer = () => {
         }
 
         {/* delete modal  */}
-        {deleteModalOpen && (
+        {/* {deleteModalOpen && (
           <DeleteModal
             isOpen={deleteModalOpen}
             onClose={() => setDeleteModalOpen(false)}
@@ -221,7 +229,7 @@ const RevenueContainer = () => {
             title="Are You Sure?"
             desc="Are you sure you want to delete this Revenue?"
           />
-        )}
+        )} */}
       </div>
     </div>
   );
