@@ -3,7 +3,7 @@ export interface GetRevenueApiResponse {
   success: boolean
   message: string
   meta: Meta
-  data: RevenueData
+  data: Payment[]
 }
 
 export interface Meta {
@@ -12,30 +12,26 @@ export interface Meta {
   limit: number
 }
 
-export interface RevenueData {
-  totalRevenue: number
-  totalPayments: number
-  data: Payment[]
-}
-
 
 export interface Payment {
+  _id: string
   user: User
-  paymentId: string
+  team: Team | null
+  subscription: Subscription
+  paypalOrderId?: string
+  paypalCaptureId?: string
+  stripeSessionId?: string
+  stripePaymentIntentId?: string
   amount: number
   currency: "usd" | string
   status: "completed" | "pending" | "failed"
-  paymentType: "Individual" | "Team" | string
-  stripeSessionId: string
-  stripePaymentIntentId: string
+  paymentType: "Evaluation" | "Individual" | "Team" | string
   createdAt: string
   updatedAt: string
-    team: Team  
-  subscription: Subscription
 }
 
 export interface Team {
-  id?: string;
+  _id?: string;
   teamName?: string;
   coachName?: string;
   coachEmail?: string;
@@ -54,11 +50,8 @@ export interface Player {
 }
 
 
-
-
 export interface User {
-  id: string
-  name: string
+  _id: string
   firstName: string
   lastName: string
   email: string
@@ -70,19 +63,49 @@ export interface User {
   position: Position[]
   jerseyNumber: string
   teamName: string
+  provider: string
+  phone: string
+  phoneCode: string
+  citizenship: string
+  nationality: string
+  gender: string
+  age: number
+  dob: string
+  foot: string
+  hight: string
+  weight: string
+  agent: string
+  gpa: string
+  birthdayPlace: string
+  inSchoolOrCollege: boolean
+  institute: string
+  schoolName: string
+  isSubscription: boolean
+  isEvaluation: boolean
+  isDevelopment: boolean
+  playingVideo: string[]
+  verified: boolean
+  emailVerified: boolean
+  createdAt: string
+  updatedAt: string
 }
 
-export type Position = "lb" | "rb" | "cb" | "gk" | string
+export type Position = "lb" | "rb" | "cb" | "gk" | "lw" | "rw" | string
 
 
 export interface Subscription {
-  id: string
+  _id: string
+  title: string
   price: number
+  currency: string
+  features: string[]
+  paymentType: string
+  numberOfGames: number | null
+  evaluationLimit: number
+  status: string
+  isActive: boolean
+  description: string
+  interval: string
+  createdAt: string
+  updatedAt: string
 }
-
-
-
-
-
-
-

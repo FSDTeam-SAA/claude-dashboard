@@ -39,6 +39,7 @@ export interface UserInfo {
   phoneCode?: string;
   satAct?: string;
   weight?: number;
+  provider?: string;
 }
 
 export interface Meta {
