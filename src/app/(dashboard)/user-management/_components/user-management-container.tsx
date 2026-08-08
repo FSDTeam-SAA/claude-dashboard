@@ -85,10 +85,12 @@ const UserManagementContainer = () => {
     return params.toString();
   };
 
+  // emailVerified=true&sortOrder=desc&
+
   const { data, isLoading, error, isError } = useQuery<UserManagementApiResponse>({
     queryKey: ["user-management", currentPage, debouncedSearch, selectedRole],
     queryFn: async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/all-user?emailVerified=true&sortOrder=desc&${buildQueryParams()}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/all-user?${buildQueryParams()}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`

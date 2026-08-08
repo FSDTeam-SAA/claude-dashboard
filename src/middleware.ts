@@ -5,7 +5,7 @@ const PUBLIC_ROUTES = [
   "/login",
   "/forgot-password",
   "/forgot-password/otp",
-  "/forgot-password/reset-password",
+  "/forgot-password/otp/reset-password",
 ];
 
 export async function middleware(request: NextRequest) {

@@ -17,6 +17,8 @@ export interface DashboardOverviewData {
   totalPlayers: number
   totalContact: number
   totalGk: number
+  totalVerifiedPlayers: number
+  totalVerifiedGk: number
 }
 
 
@@ -113,6 +115,37 @@ export function DashboardOverview() {
             </p>
             <p className="text-3xl leading-[120%] text-[#424242] font-bold font-hexco pt-1">
               {data?.data?.totalGk || 0}
+            </p>
+          </div>
+          <div>
+            <span className="flex items-center justify-center bg-[#E6F4E6] p-3 rounded-full">
+              <Users className="w-6 h-6 text-primary" />
+            </span>
+          </div>
+        </div>
+        <div className="md:col-span-1 h-[139px] flex items-center justify-between bg-white shadow-[0px_4px_6px_0px_#0000001A] px-4 rounded-[8px]">
+          <div>
+            <p className="text-sm font-semibold text-[#424242] leading-[120%]">
+              Total Verified Players
+            </p>
+            <p className="text-3xl leading-[120%] text-[#424242] font-bold font-hexco pt-1">
+              {data?.data?.totalVerifiedPlayers || 0}
+            </p>
+          </div>
+          <div>
+            <span className="flex items-center justify-center bg-[#E6F4E6] p-3 rounded-full">
+              <Calendar className="w-6 h-6 text-primary" />
+            </span>
+          </div>
+        </div>
+
+        <div className="md:col-span-1 h-[139px] flex items-center justify-between bg-white shadow-[0px_4px_6px_0px_#0000001A] px-4 rounded-[8px]">
+          <div>
+            <p className="text-sm font-semibold text-[#424242] leading-[120%]">
+              Total Verified GK
+            </p>
+            <p className="text-3xl leading-[120%] text-[#424242] font-bold font-hexco pt-1">
+              {data?.data?.totalVerifiedGk || 0}
             </p>
           </div>
           <div>
