@@ -16,6 +16,8 @@ export interface UserInfo {
   socialMedia: string[];
   playingVideo: string[];
 
+  hilightedUrl: string[];
+
   createdAt: string; // ISO string
   updatedAt: string; // ISO string
   __v: number;

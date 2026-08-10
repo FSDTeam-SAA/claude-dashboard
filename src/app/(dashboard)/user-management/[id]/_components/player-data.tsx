@@ -214,7 +214,10 @@ const PlayerData = ({ data }: { data: User }) => {
         <PlayerMarketValuePage id={data?._id || ""} />
       </div>
 
-      <PlayingVideosPage videos={data?.playingVideo} />
+      <PlayingVideosPage
+        videos={data?.playingVideo}
+        highlightedUrls={data?.hilightedUrl}
+      />
     </div>
   );
 };

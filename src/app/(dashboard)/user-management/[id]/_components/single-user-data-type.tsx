@@ -25,6 +25,7 @@ export interface User {
   schoolName: string;
   socialMedia: SocialMedia[];
   playingVideo: string[]
+  hilightedUrl: string[]
   agent: string
   age: number
   isSubscription: boolean
@@ -70,6 +71,5 @@ export interface Subscription {
   endDate: string
   status: "active" | "expired" | "canceled"
 }
-
 
 
