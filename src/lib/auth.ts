@@ -1,6 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { backendAuthRequest } from "./backend-auth";
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -25,25 +26,10 @@ export const authOptions: NextAuthOptions = {
         }
 
         try {
-          const res = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                email: credentials.email,
-                password: credentials.password,
-              }),
-            }
-          );
-
-          const response = await res.json();
-
-          if (!res.ok || !response?.success) {
-            throw new Error(response?.message || "INVALID_CREDENTIALS");
-          }
+          const response = await backendAuthRequest("/auth/login", {
+            email: credentials.email,
+            password: credentials.password,
+          });
 
           const { user, accessToken } = response.data;
 
