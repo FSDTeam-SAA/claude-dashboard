@@ -78,9 +78,18 @@ const UserManagementContainer = () => {
   // Build query params
   const buildQueryParams = () => {
     const params = new URLSearchParams();
+    const normalizedSearch = debouncedSearch.trim().replace(/\s+/g, " ");
     params.set("page", String(currentPage));
     params.set("limit", "8");
-    if (debouncedSearch) params.set("searchTerm", debouncedSearch);
+
+    // Send multi-word names as one value so names with multiple first-name or
+    // last-name words can be matched without making assumptions about the split.
+    if (normalizedSearch && normalizedSearch.split(/\s+/).length > 1) {
+      params.set("fullName", normalizedSearch);
+    } else if (normalizedSearch) {
+      params.set("searchTerm", normalizedSearch);
+    }
+
     if (selectedRole) params.set("role", selectedRole);
     return params.toString();
   };
@@ -274,7 +283,7 @@ const UserManagementContainer = () => {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[#9CA3AF]" />
             <input
               type="search"
-              placeholder="Search by name or email..."
+              placeholder="Search by full name or email..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 border border-[#E6E7E6] rounded-[8px] text-sm text-[#343A40] placeholder:text-[#9CA3AF] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
