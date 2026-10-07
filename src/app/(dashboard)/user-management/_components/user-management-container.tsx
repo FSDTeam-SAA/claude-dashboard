@@ -81,6 +81,9 @@ const UserManagementContainer = () => {
     const normalizedSearch = debouncedSearch.trim().replace(/\s+/g, " ");
     params.set("page", String(currentPage));
     params.set("limit", "8");
+    params.set("isProfileCompleted", "true");
+    params.set("emailVerified", "true");
+    params.set("sortOrder", "desc");
 
     // Send multi-word names as one value so names with multiple first-name or
     // last-name words can be matched without making assumptions about the split.
@@ -93,8 +96,6 @@ const UserManagementContainer = () => {
     if (selectedRole) params.set("role", selectedRole);
     return params.toString();
   };
-
-  // emailVerified=true&sortOrder=desc&
 
   const { data, isLoading, error, isError } = useQuery<UserManagementApiResponse>({
     queryKey: ["user-management", currentPage, debouncedSearch, selectedRole],
