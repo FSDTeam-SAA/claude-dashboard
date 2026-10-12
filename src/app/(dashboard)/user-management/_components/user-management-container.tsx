@@ -81,7 +81,7 @@ const UserManagementContainer = () => {
     const normalizedSearch = debouncedSearch.trim().replace(/\s+/g, " ");
     params.set("page", String(currentPage));
     params.set("limit", "8");
-    params.set("isProfileCompleted", "true");
+    // params.set("isProfileCompleted", "true");
     params.set("emailVerified", "true");
     params.set("sortOrder", "desc");
 
