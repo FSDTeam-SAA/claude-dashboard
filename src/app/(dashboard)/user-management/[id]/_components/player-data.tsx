@@ -26,7 +26,7 @@ const PlayerData = ({ data }: { data: User }) => {
                 Full Name
               </span>{" "}
               <span className="text-lg md:text-xl text-[#131313] font-medium leading-[120%] ">
-                {data?.firstName || ""} {data?.lastName || ""}
+                {data?.firstName || "N/A"} {data?.lastName || "N/A"}
               </span>
             </li>
             <li className="flex flex-col gap-2">
@@ -35,7 +35,7 @@ const PlayerData = ({ data }: { data: User }) => {
               </span>{" "}
               <span className="text-lg md:text-xl text-[#131313] font-medium leading-[120%] ">
                 {" "}
-                {data?.phoneCode} {data?.phone || ""}
+                {data?.phoneCode} {data?.phone || "N/A"}
               </span>
             </li>
             <li className="flex flex-col gap-2">
@@ -43,7 +43,7 @@ const PlayerData = ({ data }: { data: User }) => {
                 Nationality
               </span>{" "}
               <span className="text-lg md:text-xl text-[#131313] font-medium leading-[120%] ">
-                {data?.nationality || ""}
+                {data?.nationality || "N/A"}
               </span>
             </li>
             <li className="flex flex-col gap-2">
@@ -51,7 +51,7 @@ const PlayerData = ({ data }: { data: User }) => {
                 Preferred Foot
               </span>{" "}
               <span className="text-lg md:text-xl text-[#131313] font-medium leading-[120%] ">
-                {data?.foot || ""}
+                {data?.foot || "N/A"}
               </span>
             </li>
             <li className="flex flex-col gap-2">
@@ -59,7 +59,7 @@ const PlayerData = ({ data }: { data: User }) => {
                 Current Club
               </span>{" "}
               <span className="text-lg md:text-xl text-[#131313] font-medium leading-[120%] ">
-                {data?.currentClub || ""}
+                {data?.currentClub || "N/A"}
               </span>
             </li>
             <li className="flex flex-col gap-2">
@@ -67,7 +67,7 @@ const PlayerData = ({ data }: { data: User }) => {
                 GPA
               </span>{" "}
               <span className="text-lg md:text-xl text-[#131313] font-medium leading-[120%] ">
-                {data?.gpa || ""}
+                {data?.gpa || "N/A"}
               </span>
             </li>
             <li className="flex flex-col gap-2">
@@ -75,7 +75,7 @@ const PlayerData = ({ data }: { data: User }) => {
                 Place of birth
               </span>{" "}
               <span className="text-lg md:text-xl text-[#131313] font-medium leading-[120%] ">
-                {data?.birthdayPlace || ""}
+                {data?.birthdayPlace || "N/A"}
               </span>
             </li>
             <li className="flex flex-col gap-2">
@@ -83,7 +83,7 @@ const PlayerData = ({ data }: { data: User }) => {
                 Weight
               </span>{" "}
               <span className="text-lg md:text-xl text-[#131313] font-medium leading-[120%] ">
-                {data?.weight || ""}
+                {data?.weight || "N/A"}
               </span>
             </li>
             <li className="flex flex-col gap-2">
@@ -91,7 +91,7 @@ const PlayerData = ({ data }: { data: User }) => {
                 Category
               </span>{" "}
               <span className="text-lg md:text-xl text-[#131313] font-medium leading-[120%] ">
-                {data?.category || ""}
+                {data?.category || "N/A"}
               </span>
             </li>
             <li className="flex flex-col gap-2">
@@ -99,11 +99,11 @@ const PlayerData = ({ data }: { data: User }) => {
                 Agent
               </span>{" "}
               <span className="text-lg md:text-xl text-[#131313] font-medium leading-[120%] ">
-                {data?.agent || ""}
+                {data?.agent || "N/A"}
               </span>
             </li>
 
-            {/* <li className="flex flex-col gap-2"><span className='text-base font-medium text-[#616161] leading-[150%]'>Social media</span> <span className='text-lg md:text-xl text-[#131313] font-medium leading-[120%] '>{data?.gpa || ""}</span></li> */}
+            {/* <li className="flex flex-col gap-2"><span className='text-base font-medium text-[#616161] leading-[150%]'>Social media</span> <span className='text-lg md:text-xl text-[#131313] font-medium leading-[120%] '>{data?.gpa || "N/A"}</span></li> */}
 
             <li className="flex flex-col gap-2">
               <span className="text-base font-medium text-[#616161] leading-[150%]">
@@ -120,7 +120,7 @@ const PlayerData = ({ data }: { data: User }) => {
                       rel="noopener noreferrer"
                       className="text-lg md:text-xl text-[#131313] font-medium leading-[120%] hover:underline"
                     >
-                      {item?.name || ""}
+                      {item?.name || "N/A"}
                     </a>
                   ))}
                 </div>
@@ -135,10 +135,10 @@ const PlayerData = ({ data }: { data: User }) => {
               <span className="text-base font-medium text-[#616161] leading-[150%]">
                 Age
               </span>
-              <span className="text-lg md:text-xl text-[#131313] font-normal leading-[120%]">
+              <span className="text-lg md:text-xl text-[#131313] font-medium leading-[120%]">
                 {data?.dob
                   ? `${moment(data.dob).format("DD MMM YYYY")} (${data.age || 0})`
-                  : ""}
+                  : "N/A"}
               </span>
             </li>
             <li className="flex flex-col gap-2">
@@ -146,7 +146,7 @@ const PlayerData = ({ data }: { data: User }) => {
                 Height
               </span>{" "}
               <span className="text-lg md:text-xl text-[#131313] font-medium leading-[120%] ">
-                {data?.hight || ""}
+                {data?.hight || "N/A"}
               </span>
             </li>
             <li className="flex flex-col gap-2">
@@ -154,9 +154,9 @@ const PlayerData = ({ data }: { data: User }) => {
                 Position
               </span>{" "}
               <span className="text-lg md:text-xl text-[#131313] font-medium leading-[120%] ">
-                <span className="text-lg md:text-xl text-[#131313] font-normal leading-[120%] ">
+                <span className="text-lg md:text-xl text-[#131313] font-medium leading-[120%] ">
                   {data?.position?.map((p) => p.toUpperCase()).join("-") ||
-                    ""}
+                    "N/A"}
                 </span>
               </span>
             </li>
@@ -165,7 +165,7 @@ const PlayerData = ({ data }: { data: User }) => {
                 League
               </span>{" "}
               <span className="text-lg md:text-xl text-[#131313] font-medium leading-[120%] ">
-                {data?.league || ""}
+                {data?.league || "N/A"}
               </span>
             </li>
             <li className="flex flex-col gap-2">
@@ -173,7 +173,7 @@ const PlayerData = ({ data }: { data: User }) => {
                 Gender
               </span>{" "}
               <span className="text-lg md:text-xl text-[#131313] font-medium leading-[120%] ">
-                {data?.gender || ""}
+                {data?.gender || "N/A"}
               </span>
             </li>
             <li className="flex flex-col gap-2">
@@ -181,7 +181,7 @@ const PlayerData = ({ data }: { data: User }) => {
                 Citizenship
               </span>{" "}
               <span className="text-lg md:text-xl text-[#131313] font-medium leading-[120%] ">
-                {data?.citizenship || ""}
+                {data?.citizenship || "N/A"}
               </span>
             </li>
             <li className="flex flex-col gap-2">
@@ -189,17 +189,17 @@ const PlayerData = ({ data }: { data: User }) => {
                 Institute Name
               </span>{" "}
               <span className="text-lg md:text-xl text-[#131313] font-medium leading-[120%] ">
-                {data?.schoolName || ""}
+                {data?.schoolName || "N/A"}
               </span>
             </li>
 
-            {/* <li className="flex flex-col gap-2"><span className='text-base font-medium text-[#616161] leading-[150%]'>Role</span> <span className='text-lg md:text-xl text-[#131313] font-medium leading-[120%] '>{data?.role || ""}</span></li> */}
+            {/* <li className="flex flex-col gap-2"><span className='text-base font-medium text-[#616161] leading-[150%]'>Role</span> <span className='text-lg md:text-xl text-[#131313] font-medium leading-[120%] '>{data?.role || "N/A"}</span></li> */}
             <li className="flex flex-col gap-2">
               <span className="text-base font-medium text-[#616161] leading-[150%]">
                 Email
               </span>{" "}
               <span className="text-lg md:text-xl text-[#131313] font-medium leading-[120%] ">
-                {data?.email || ""}
+                {data?.email || "N/A"}
               </span>
             </li>
           </ul>
