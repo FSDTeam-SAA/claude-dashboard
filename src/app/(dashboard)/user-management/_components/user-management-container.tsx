@@ -196,22 +196,22 @@ const UserManagementContainer = () => {
                 </TableCell>
 
                 <TableCell className="text-base font-normal text-[#68706A] leading-[150%] text-center py-4">
-                 {item?.phoneCode} {item?.phone || ""}
+                 {item?.phoneCode} {item?.phone || "N/A"}
                 </TableCell>
 
                 <TableCell className="text-base font-normal text-[#68706A] leading-[150%] text-center py-4">
-                  {item?.citizenship || ""}
+                  {item?.citizenship || "N/A"}
                 </TableCell>
                 <TableCell className="text-base font-normal text-[#68706A] leading-[150%] text-center capitalize py-4">
-                  {item?.gender || ""}
+                  {item?.gender || "N/A"}
                 </TableCell>
 
                 <TableCell className="text-base font-normal text-[#68706A] leading-[150%] text-center capitalize py-4">
-                  {item?.role}
+                  {item?.role || "N/A"}
                 </TableCell>
 
                 <TableCell className="text-base font-normal text-[#68706A] leading-[150%] text-center py-4">
-                  {item?.provider || ""}
+                  {item?.provider || "N/A"}
                 </TableCell>
                 <TableCell className="text-base font-medium text-[#68706A] leading-[150%] text-center py-4">
                   {moment(item?.createdAt).format("MMM DD YYYY")}
