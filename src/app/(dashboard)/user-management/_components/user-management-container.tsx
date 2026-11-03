@@ -27,6 +27,13 @@ import { UserManagementApiResponse } from "../../_components/user-data-type";
 
 import NoUser from "../../../../../public/assets/images/no-user.jpeg"
 
+type AccountStatus =
+  | "all"
+  | "verified-complete"
+  | "verified-incomplete"
+  | "unverified-complete"
+  | "unverified-incomplete";
+
 const UserManagementContainer = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -39,12 +46,21 @@ const UserManagementContainer = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
-  const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState<AccountStatus>("verified-complete");
+  const [openDropdown, setOpenDropdown] = useState<"role" | "status" | null>(null);
 
   const roles = [
     { label: "All Roles", value: "" },
     { label: "Player", value: "player" },
     { label: "Goalkeeper", value: "gk" },
+  ];
+
+  const accountStatuses: { label: string; value: AccountStatus }[] = [
+    { label: "All Status", value: "all" },
+    { label: "Email Verified & Profile Complete", value: "verified-complete" },
+    { label: "Email Verified & Profile Incomplete", value: "verified-incomplete" },
+    { label: "Email Unverified & Profile Complete", value: "unverified-complete" },
+    { label: "Email Unverified & Profile Incomplete", value: "unverified-incomplete" },
   ];
 
   // Debounce search input (500ms)
@@ -60,15 +76,21 @@ const UserManagementContainer = () => {
   const handleRoleChange = useCallback((role: string) => {
     setSelectedRole(role);
     setCurrentPage(1);
-    setIsRoleDropdownOpen(false);
+    setOpenDropdown(null);
+  }, []);
+
+  const handleStatusChange = useCallback((status: AccountStatus) => {
+    setSelectedStatus(status);
+    setCurrentPage(1);
+    setOpenDropdown(null);
   }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (!target.closest("#role-dropdown-wrapper")) {
-        setIsRoleDropdownOpen(false);
+      if (!target.closest("[data-filter-dropdown]")) {
+        setOpenDropdown(null);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -81,9 +103,21 @@ const UserManagementContainer = () => {
     const normalizedSearch = debouncedSearch.trim().replace(/\s+/g, " ");
     params.set("page", String(currentPage));
     params.set("limit", "8");
-    // params.set("isProfileCompleted", "true");
-    params.set("emailVerified", "true");
     params.set("sortOrder", "desc");
+
+    if (selectedStatus === "verified-complete") {
+      params.set("emailVerified", "true");
+      params.set("isProfileCompleted", "true");
+    } else if (selectedStatus === "verified-incomplete") {
+      params.set("emailVerified", "true");
+      params.set("isProfileCompleted", "false");
+    } else if (selectedStatus === "unverified-complete") {
+      params.set("emailVerified", "false");
+      params.set("isProfileCompleted", "true");
+    } else if (selectedStatus === "unverified-incomplete") {
+      params.set("emailVerified", "false");
+      params.set("isProfileCompleted", "false");
+    }
 
     // Send multi-word names as one value so names with multiple first-name or
     // last-name words can be matched without making assumptions about the split.
@@ -98,7 +132,7 @@ const UserManagementContainer = () => {
   };
 
   const { data, isLoading, error, isError } = useQuery<UserManagementApiResponse>({
-    queryKey: ["user-management", currentPage, debouncedSearch, selectedRole],
+    queryKey: ["user-management", currentPage, debouncedSearch, selectedRole, selectedStatus],
     queryFn: async () => {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/all-user?${buildQueryParams()}`, {
         method: "GET",
@@ -291,15 +325,15 @@ const UserManagementContainer = () => {
             />
           </div>
 
-          <div className="relative" id="role-dropdown-wrapper">
+          <div className="relative" data-filter-dropdown="role">
             <button
-              onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
+              onClick={() => setOpenDropdown(openDropdown === "role" ? null : "role")}
               className="flex items-center gap-2 px-4 py-2.5 border border-[#E6E7E6] rounded-[8px] text-sm text-[#343A40] bg-white hover:border-primary transition-colors min-w-[160px] justify-between"
             >
               <span>{roles.find((r) => r.value === selectedRole)?.label || "All Roles"}</span>
-              <ChevronDown className={`h-4 w-4 text-[#9CA3AF] transition-transform ${isRoleDropdownOpen ? "rotate-180" : ""}`} />
+              <ChevronDown className={`h-4 w-4 text-[#9CA3AF] transition-transform ${openDropdown === "role" ? "rotate-180" : ""}`} />
             </button>
-            {isRoleDropdownOpen && (
+            {openDropdown === "role" && (
               <div className="absolute top-full left-0 mt-1 w-full bg-white border border-[#E6E7E6] rounded-[8px] shadow-lg z-10 overflow-hidden">
                 {roles.map((role) => (
                   <button
@@ -312,6 +346,33 @@ const UserManagementContainer = () => {
                     }`}
                   >
                     {role.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="relative" data-filter-dropdown="status">
+            <button
+              onClick={() => setOpenDropdown(openDropdown === "status" ? null : "status")}
+              className="flex items-center gap-2 px-4 py-2.5 border border-[#E6E7E6] rounded-[8px] text-sm text-[#343A40] bg-white hover:border-primary transition-colors min-w-[280px] justify-between"
+            >
+              <span>{accountStatuses.find((status) => status.value === selectedStatus)?.label || "All Status"}</span>
+              <ChevronDown className={`h-4 w-4 text-[#9CA3AF] transition-transform ${openDropdown === "status" ? "rotate-180" : ""}`} />
+            </button>
+            {openDropdown === "status" && (
+              <div className="absolute top-full left-0 mt-1 w-full bg-white border border-[#E6E7E6] rounded-[8px] shadow-lg z-10 overflow-hidden">
+                {accountStatuses.map((status) => (
+                  <button
+                    key={status.value}
+                    onClick={() => handleStatusChange(status.value)}
+                    className={`w-full text-left px-4 py-2.5 text-sm hover:bg-[#E6F4E6] transition-colors ${
+                      selectedStatus === status.value
+                        ? "bg-[#E6F4E6] text-primary font-medium"
+                        : "text-[#343A40]"
+                    }`}
+                  >
+                    {status.label}
                   </button>
                 ))}
               </div>
